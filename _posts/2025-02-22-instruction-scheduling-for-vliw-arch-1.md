@@ -8,7 +8,6 @@ author: jinlock
 description: Discussing instruction scheduling for VLIW architecture.
 toc: false
 comment: false
-future: true
 ---
 
 # Place holder
