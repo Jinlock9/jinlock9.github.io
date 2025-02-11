@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Performance Degradation of VLIW Architecture Due to Machine Code Sinking 1
+title: Performance Degradation of VLIW Architecture Due to Machine Code Sinking
 date: 2025-02-11 02:22 +0800
-categories: [Discussion, Computer Architecture, Compiler]
+categories: [Discussion, Compiler]
 tags: vliw, instruction_scheduling, machine-sink
 author: jinlock
 description: Discussing performance degradation caused by LLVM machine-sink and possible solutions
