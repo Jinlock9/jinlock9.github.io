@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Performance Degradation of VLIW Architecture Due to Machine Code Sinking I
+title: Performance Degradation of VLIW Architecture Due to Machine Code Sinking 1
 date: 2025-02-11 02:22 +0800
-categories: [Discussion, Computer Architecture, ILP]
+categories: [Discussion, Computer Architecture, Compiler]
 tags: vliw, instruction_scheduling, machine-sink
 author: jinlock
 description: Discussing performance degradation caused by LLVM machine-sink and possible solutions
@@ -13,7 +13,7 @@ published: true
 
 I am working on the development of an LLVM-based compiler for a custom Tensor Processing Unit. My supervisor's first directive was to analyze why LLVM's machine sinking adversely affects the number of cycles in executing certain kernels. 
 
-We had been directly applying LLVM's built-in [Machine code sinking](https://llvm.org/doxygen/MachineSink_8cpp_source.html), but since an optimization technique that was expected to have a positive impact was instead causing a negative effectm a thorough investigation was necessary.
+We had been directly applying LLVM's built-in [Machine code sinking](https://llvm.org/doxygen/MachineSink_8cpp_source.html), but since an optimization technique that was expected to have a positive impact was instead causing a negative effect, a thorough investigation was necessary.
 
 ## What is Machine Code Sinking?
 Machine code sinking is an optimization technique that moves instructions to later points in a program's execution where they are actually needed, reducing register pressure and potentially improving performance.  
@@ -41,13 +41,13 @@ In some cases, I observed the following behavior:
 - **Before machine sinking:**  
     ```assembly
     LABEL1:
-    r0 = ld [mem:r1]
+    r0 = Fsub r3 r4
 
     LABEL2:
     ...
 
     LABEL3:
-    r2 = add r0, r1
+    r2 = Fadd r0, r1
     ```  
 
 - **After machine sinking:**  
@@ -58,8 +58,8 @@ In some cases, I observed the following behavior:
     ...
 
     LABEL3:
-    r0 = ld [mem:r1]
-    r2 = add r0, r1
+    r0 = Fsub r3 r4
+    r2 = Fadd r0, r1
     ```  
 
 This is a reasonable code movement from an optimization perspective. However, in actual cases, because these instructions have dependencies, the program with machine sinking incurred extra cycles due to pipeline stalls between the instructions. In contrast, the program without machine sinking was able to use precomputed data without stalling.  
@@ -73,11 +73,52 @@ To mitigate this issue, I introduced constraints to determine when to sink code:
 
 My approach **only allowed sinking when it was more likely to have a positive effect**, as I believed that unnecessary code sinking was the root of the problem. 
 
-However, this was not a true solution—it was more of a **loss reduction strategy**.  
+However, this was not a true solution — it was more of a **loss reduction strategy**.  
 Additionally, the results were highly biased by the test cases and types of kernels used, and in some cases, performance worsened even further.
 
-Thus, this could never be a **general solution**. Finding fair parameters could serve as a **temporary patch**, but not a fundamental fix.
+Thus, this approach could never be a general solution—at best, fine-tuning the parameters could provide a temporary patch, but not a fundamental fix. This realization led me to reassess my assumptions: rather than machine sinking itself being flawed, the issue lay elsewhere.
 
 While this approach mitigated some inefficiencies, it was clear that machine sinking itself wasn't fundamentally flawed. Instead of modifying the pass further, I shifted my focus to improving performance outside of machine sinking.
 
-Continued in Part 2.
+### Approach 3
+
+At this point, I realized I had overlooked a crucial factor: 
+#### instruction scheduling in VLIW architectures operates under fundamentally different constraints compared to traditional scalar processors.
+
+For the same case with Part 1 Approach 2:
+
+- **Before machine sinking:**  
+    ```assembly
+    LABEL1:
+    r0 = Fsub r3 r4
+
+    LABEL2:
+    ...
+
+    LABEL3:
+    r2 = Fadd r0, r1
+    ```  
+
+- **After machine sinking:**  
+    ```assembly
+    LABEL1:
+
+    LABEL2:
+    ...
+
+    LABEL3:
+    r0 = Fsub r3 r4
+    r2 = Fadd r0, r1
+    ```  
+
+This time, I analyzed how machine scheduling behaves in this scenario.
+I realized that when machine scheduling was performed on Basic Block 3, there were only a small number of scalar instructions (including `Fsub` and `Fadd`). As a result, the scalar functional units were not fully utilized, and the instructions were not scheduled efficiently in the pipeline.
+
+*Performing instruction scheduling separately for each basic block often leads to inefficient resource utilization, as most instructions leave many functional units underutilized* [1]. This is a common issue in VLIW architectures.
+
+Therefore, I decided to find a way to make the MachineScheduler handle code scheduling from a global perspective. This could involve directly modifying it or introducing an intermediate pass between machine sinking and scheduling.
+
+Moving forward, I will delve deeper into VLIW architecture and scheduling algorithms to refine this strategy. Additionally, I will assess whether this approach can provide a viable, generalizable solution beyond the test cases I have analyzed.
+
+### Reference
+[1] J. A. Fisher, "Trace Scheduling: A Technique for Global Microcode Compaction," IEEE Transactions on Computers, 1981.
