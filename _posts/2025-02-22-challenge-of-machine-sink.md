@@ -3,7 +3,7 @@ layout: post
 title: Challenges of Machine Code Sinking in VLIW Architectures: A Scheduling Perspective
 date: 2025-02-11 02:22 +0800
 categories: [Discussion, Compiler]
-tags: vliw, instruction_scheduling, machine-sink
+tags: vliw instruction_scheduling machine-sink
 author: jinlock
 description: Discussing performance degradation caused by LLVM machine-sink and possible solutions
 toc: false
