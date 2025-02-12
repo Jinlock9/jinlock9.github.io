@@ -116,6 +116,7 @@ I realized that when machine scheduling was performed on Basic Block 3, there we
 
 *Performing instruction scheduling separately for each basic block often leads to inefficient resource utilization, as most instructions leave many functional units underutilized* [1]. This is a common issue in VLIW architectures.
 
+I thought that machine sinking can have a positive effect if it is complemented by better scheduling. If a global scheduling strategy can address local instruction shortages for certain resources, it can mitigate pipeline inefficiencies caused by injected code. As a result, machine sinking would contribute only positively to performance.
 Therefore, I decided to find a way to make the MachineScheduler handle code scheduling from a global perspective. This could involve directly modifying it or introducing an intermediate pass between machine sinking and scheduling.
 
 Moving forward, I will delve deeper into VLIW architecture and scheduling algorithms to refine this strategy. Additionally, I will assess whether this approach can provide a viable, generalizable solution beyond the test cases I have analyzed.
