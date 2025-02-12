@@ -15,7 +15,7 @@ I am working on the development of an LLVM-based compiler for a custom Tensor Pr
 
 We had been directly applying LLVM's built-in [Machine code sinking](https://llvm.org/doxygen/MachineSink_8cpp_source.html), but since an optimization technique that was expected to have a positive impact was instead causing a negative effect, a thorough investigation was necessary.
 
-## What is Machine Code Sinking?
+### What is Machine Code Sinking?
 Machine code sinking is an optimization technique that moves instructions to later points in a program's execution where they are actually needed, reducing register pressure and potentially improving performance.  
 
 By definition, machine code sinking is expected to improve performance, specifically execution time. It reduces register pressure, preventing potential register spills, and optimizes control flow to eliminate redundant computations.
