@@ -20,18 +20,18 @@ This paper introduces **VLIW (Very Long Instruction Word)** as an alternative to
 
 While reading this paper, I gained valuable insights into **VLIW architecture, LLVM's machine scheduling heuristics**, and possible solutions for challenges I previously discussed in *"Challenges of Machine Code Sinking in VLIW Architectures - A Scheduling Perspective."*
 
-#### - *"So instead of building an architecture first and a compiler second, we have simultaneously developed a compiler and an architecture..."*
+#### • *"So instead of building an architecture first and a compiler second, we have simultaneously developed a compiler and an architecture..."*
 
 Until now, I had considered **VLIW architecture and compiler optimization separately**. However, this paper makes it clear that **VLIW architecture was fundamentally designed with compilation in mind**. 
 
 Thus, when applying **machine code sinking**, it is reasonable to consider how **VLIW architectures will be scheduled** to ensure optimal performance.
 
-#### - *"But basic blocks have severely limited parallelism;"*  
-#### - *"If one ignored the artificial constraints imposed by basic blocks, ordinary scientific programs contained large amounts of parallelism."*
+#### • *"But basic blocks have severely limited parallelism;"*  
+#### • *"If one ignored the artificial constraints imposed by basic blocks, ordinary scientific programs contained large amounts of parallelism."*
 
 Performance improvements are **severely limited** when scheduling is performed on a **single basic block at a time**. This raises concerns about **machine code sinking**, as it can cause **imbalance in instruction distribution** with respect to available resources.
 
-#### - *"These paths, or traces, contain much more parallelism than basic blocks."*
+#### • *"These paths, or traces, contain much more parallelism than basic blocks."*
 
 The introduction of **trace scheduling** was particularly insightful. This technique helps **increase ILP (Instruction-Level Parallelism) during machine scheduling**, potentially mitigating the performance degradation caused by **machine code sinking**.
 
