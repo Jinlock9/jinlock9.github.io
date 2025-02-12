@@ -3,11 +3,10 @@ layout: post
 title: Challenges of Machine Code Sinking in VLIW Architectures - A Scheduling Perspective
 date: 2025-02-11 02:22 +0800
 categories: [Discussion, Compiler]
-tags: vliw instruction_scheduling machine-sink
+tags: vliw_architecture instruction_scheduling machine-sink
 author: jinlock
 description: Discussing performance degradation caused by LLVM machine-sink and possible solutions
 toc: false
-comment: false
 published: true
 ---
 
@@ -15,10 +14,14 @@ I am working on the development of an LLVM-based compiler for a custom Tensor Pr
 
 We had been directly applying LLVM's built-in [Machine code sinking](https://llvm.org/doxygen/MachineSink_8cpp_source.html), but since an optimization technique that was expected to have a positive impact was instead causing a negative effect, a thorough investigation was necessary.
 
+---
+
 ### What is Machine Code Sinking?
 Machine code sinking is an optimization technique that moves instructions to later points in a program's execution where they are actually needed, reducing register pressure and potentially improving performance.  
 
 By definition, machine code sinking is expected to improve performance, specifically execution time. It reduces register pressure, preventing potential register spills, and optimizes control flow to eliminate redundant computations.
+
+---
 
 ### Approach 1
 
@@ -29,6 +32,8 @@ When I first started investigating this issue, I was new to both LLVM and compil
 My reasoning was that the number of branches was the most apparent difference between the assembly output of the program with and without machine sinking. Additionally, our company’s branch prediction scheme was not well-suited for handling complex branching.  
    
 However, after further analysis, I found that the difference in branch jumps between the two versions was not significant. As a result, I quickly discarded this assumption.
+
+---
 
 ### Approach 2 
 
@@ -80,10 +85,12 @@ Thus, this approach could never be a general solution—at best, fine-tuning the
 
 While this approach mitigated some inefficiencies, it was clear that machine sinking itself wasn't fundamentally flawed. Instead of modifying the pass further, I shifted my focus to improving performance outside of machine sinking.
 
+---
+
 ### Approach 3
 
 At this point, I realized I had overlooked a crucial factor: 
-#### instruction scheduling in VLIW architectures operates under fundamentally different constraints compared to traditional scalar processors.
+#### instruction scheduling in VLIW architectures operates under fundamentally different constraints compared to traditional pipelined sequential processors.
 
 For the same case with Part 1 Approach 2:
 
@@ -120,6 +127,10 @@ I thought that machine sinking can have a positive effect if it is complemented 
 Therefore, I decided to find a way to make the MachineScheduler handle code scheduling from a global perspective. This could involve directly modifying it or introducing an intermediate pass between machine sinking and scheduling.
 
 Moving forward, I will delve deeper into VLIW architecture and scheduling algorithms to refine this strategy. Additionally, I will assess whether this approach can provide a viable, generalizable solution beyond the test cases I have analyzed.
+
+*I am open to any comments, feedback, or discussions regarding this topic. Feel free to share your thoughts!*
+
+---
 
 ### Reference
 [1] J. A. Fisher, "Trace Scheduling: A Technique for Global Microcode Compaction," IEEE Transactions on Computers, 1981.
