@@ -18,7 +18,7 @@ This paper introduces **VLIW (Very Long Instruction Word)** as an alternative to
 
 ### Review
 
-While reading this paper, I gained valuable insights into **VLIW architecture, LLVM's machine scheduling heuristics**, and possible solutions for challenges I previously discussed in *"Challenges of Machine Code Sinking in VLIW Architectures - A Scheduling Perspective."*
+While reading this paper, I gained valuable insights into **VLIW architecture, machine scheduling heuristics**, and possible solutions for challenges I previously discussed in *"Challenges of Machine Code Sinking in VLIW Architectures - A Scheduling Perspective."*
 
 #### • *"So instead of building an architecture first and a compiler second, we have simultaneously developed a compiler and an architecture..."*
 
@@ -29,11 +29,11 @@ Thus, when applying **machine code sinking**, it is reasonable to consider how *
 #### • *"But basic blocks have severely limited parallelism;"*  
 #### • *"If one ignored the artificial constraints imposed by basic blocks, ordinary scientific programs contained large amounts of parallelism."*
 
-Performance improvements are **severely limited** when scheduling is performed on a **single basic block at a time**. This raises concerns about **machine code sinking**, as it can cause **imbalance in instruction distribution** with respect to available resources.
+Performance improvements are **severely limited** when scheduling is performed on a **single basic block at a time**. This raises concerns about **machine code sinking**, as it can cause **imbalance in instruction distribution** with respect to available resources, resulting in less favorable basic blocks.
 
 #### • *"These paths, or traces, contain much more parallelism than basic blocks."*
 
-The introduction of **trace scheduling** was particularly insightful. This technique helps **increase ILP (Instruction-Level Parallelism) during machine scheduling**, potentially mitigating the performance degradation caused by **machine code sinking**.
+The introduction of **trace scheduling** was particularly insightful. This technique helps **increase ILP (Instruction-Level Parallelism) during machine scheduling**, as it treats multiple basic blocks as a single large basic block.
 
 I am considering **implementing trace scheduling as an intermediate pass** between **machine sink and machine scheduling** to achieve better performance.
 
