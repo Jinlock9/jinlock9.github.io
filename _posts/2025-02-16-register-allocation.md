@@ -50,6 +50,47 @@ Now, let's dig into LLVM's primary strategies: **linear scan allocation** and **
 ---
 
 ### Linear Scan Allocation
+I referred to the lecture note by *Chaofan Lin*.
+
+#### Basic Definitions on Liveness
+1. A variable is **live** if it may be read in the later before it is written.
+    - *"define"*: writing a varaible
+    - *"use"*: reading a varaible
+    - *"dead"*: old variable
+2. The **live range** of a varaiable is the set of points at which that *varaiable is live*.
+    - Ex. `[0, 2]`, `[4, 7]`, `[9, 15]`
+3. The **live interval** of a variable is the smallest interval containing the *live range*.
+    - Live interval **ignores holes** -> conservative estimate of the live range
+
+#### Basic Linear Scan Algorithm
+- **Linear Scan Register Allocation (LSRA)** proceeds the live intervals sorted by their start positions and allocate register greedily:
+    - If a live interval **begins**, it selects a free register and allocate.
+    - If a live interval **ends**, the allocated register is marked as *free* again.
+    - If a live interval begins but **no free registers**, *spill* it.
+- Implementation
+    - maintains a **active** list: contains all intervals that overlap with the current positions and have registers assigned.
+    - collects liveness information using *dataflow analysis algorithm*
+    - conditions and loops -> not linear
+        - use **CFG-based liveness analysis**
+    - simple and runs very fast
+    - *not good enough*
+
+#### *Second Chance Binpacking*
+As *LSRA* ignore holes in the live intervals, a **binpacking** model deals allocations in a finer grain size.
+
+- **Binpacking Model**
+    - **bin**: each register
+    - pack variables' *lifetime* into bins
+    - put two **non-overlapping** lifetime into the same bin
+    - assign two variables in the same bin if one's lifetime is **entirely contained in a lifetime hole** of the other.
+    - *free registers**: non-occupied registers + registers containing in lifetime holes
+    - heuristically chooses the register with the **smallest hole** that is **larger** than the *variable's lifetime*.
+- **Second Chance Allocation**
+    - **spill another variable** to create a free register
+    - compares the distance to each variable's **next reference** and weighted by the **the depth of the loop** it occurs.
+        - Spills the one with lowest priority
+    - split variables' *life intervals*
+    - assigned new register when the spilled variable is needed again: give a *second chance*
 
 ---
 
