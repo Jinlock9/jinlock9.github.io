@@ -1,0 +1,63 @@
+---
+layout: post
+title: Register Allocation
+date: 2025-02-16 00:00 +0800
+categories: [Review, Compiler]
+tags: register_allocation compiler compiler_optimization
+author: jinlock
+description: Reviewing about Register Allocation
+toc: false
+published: true
+---
+
+As I explored the advantages of machine code sinking and the potential scenarios that could lead to performance degradation, I realized the importance of handling registers.
+
+At school, I primarily learned about performance bottlenecks caused by accessing main memory due to cache misses. As a result, I had not given much thought to situations where the available register set is insufficient to hold all live values.
+
+I encountered this problem when I attempted to allow code sinking under certain conditions. I initially assumed this would not worsen performance, but in some cases, it led to even greater performance degradation. This was due to high register pressure in the parent block.
+
+I came across the concept that 
+#### *"This secondary effect that results from instruction scheduling in large code segments is called register pressure."*
+As I consider merging basic blocks to improve instruction-level parallelism (ILP) for machine scheduling, I realize that understanding register management is crucial before working with large code segments. Efficient register handling will help mitigate register pressure and optimize performance.
+
+---
+
+### Register Allocation
+**Register allocation** is the process of assigning program variables to a limited number of CPU registers to optimize execution speed and minimize memory access. Since registers are much faster than main memory, efficient allocation can significantly improve performance.
+
+Key idea is that not every varaiable is **in-use ("live")**. Therefore, when there are not enough registers, some variables maybe move to and from RAM, and this is called ***spilling*** the register. And those varaiables which can be spilled and stored in register are considered as ***split***. And the high ***register pressure*** means there are more spills and reloads are needed [2].
+
+Register allocation determines where variables are stored during execution — either in registers or memory. The allocator must decide **which registers to use** and **how long a variable should stay** in a specific location [2].
+
+#### Key Steps in Register Allocation
+- Liveness Analysis – Determines which variables are "live" at each point in the program, meaning they hold a value that will be used later.
+- Register Assignment – Allocates registers to variables based on their liveness and usage frequency.
+- Spilling – If there are more live variables than available registers, some variables are stored in memory and reloaded when needed.
+- Move Optimization (Coalescing) – Reduces unnecessary register-to-register moves to improve efficiency.
+
+#### Common Challenges in Register Allocation
+- Aliasing: Some architectures allow different-sized accesses to the same register, causing unintended side effects.
+- Pre-coloring: Some registers are reserved for specific functions (e.g., function arguments in calling conventions).
+- NP-Completeness: Register allocation is computationally complex since it can be reduced to the graph coloring problem.
+
+#### Register Allocation Strategies
+- Graph Coloring Allocation – Represents variables as nodes in a graph, where edges indicate conflicting variable usage. Registers are assigned using graph coloring techniques.
+- Linear Scan Allocation – A simpler, faster approach used in Just-In-Time (JIT) compilers, which processes variables in a linear order based on their lifetimes.
+- Priority-based Allocation – Assigns registers based on variable usage frequency, favoring frequently used variables.
+
+Now, let's dig into LLVM's primary strategies: **linear scan allocation** and **greedy register allocation**.
+
+---
+
+### Linear Scan Allocation
+
+---
+
+### Greedy Register Allocation
+
+---
+
+### Reference
+- [1] J. L. Hennessy and D. A. Patterson, *Computer Architecture: A Quantitative Approach*, 6th ed. San Francisco, CA, USA: Morgan Kaufmann, 2019.  
+- [2] "Register Allocation," Wikipedia, The Free Encyclopedia. [Online]. Available: https://en.wikipedia.org/wiki/Register_allocation. [Accessed: 16-02-2025].  
+- [3] D. Greene, "Greedy Register Allocation in LLVM 3.0," LLVM Project Blog, Sept. 2011. [Online]. Available: https://blog.llvm.org/2011/09/greedy-register-allocation-in-llvm-30.html. [Accessed: 16-02-2025].

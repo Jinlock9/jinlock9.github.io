@@ -2,7 +2,7 @@
 layout: post
 title: Review - A Smart Compiler and a Dumb Machine
 date: 2025-02-13 00:05 +0800
-categories: [Review, VLIW_Architecture]
+categories: [Paper, VLIW_Architecture]
 tags: vliw_architecture trace_scheduling parallel_processing compiler
 author: jinlock
 description: Reviewing "Parallel Processing - A Smart Compiler and a Dumb Machine"
