@@ -63,7 +63,7 @@ I referred to the lecture note by *Chaofan Lin*.
     - Live interval **ignores holes** -> conservative estimate of the live range
 
 #### Basic Linear Scan Algorithm
-- **Linear Scan Register Allocation (LSRA)** proceeds the live intervals sorted by their start positions and allocate register greedily:
+- **Linear Scan Register Allocation (LSRA)** proceeds the live intervals sorted by their *start positions* and allocate register greedily:
     - If a live interval **begins**, it selects a free register and allocate.
     - If a live interval **ends**, the allocated register is marked as *free* again.
     - If a live interval begins but **no free registers**, *spill* it.
@@ -95,6 +95,42 @@ As *LSRA* ignore holes in the live intervals, a **binpacking** model deals alloc
 ---
 
 ### Greedy Register Allocation
+*Greedy Register Allocation* is the register allocation algorithm introduced in LLVM 3.0 to improve the efficiency of register allocation while maintaining good performance.  
+It replaces the earlier *linear scan* allocator and provides more flexible and extensible framework.
+
+#### Key Concepts
+1. **Spilling and Eviction-Based Strategy**
+    - Instead of performing register allocation in a single pass, the allocator continuously refines its decisions, using heuristics to determin which values to keep in registers and which to spill to memory.
+2. **Live Intervals and Interference Graph**
+    - LLVM represents variable lifetimes using **live intervals**, which track the start and end of a value's usage in the program.
+    - When a register is needed but unavailable, the allocator examines the **interference graph** (which shows conflicting live intervals) to decide the best strategy.
+3. **Priority-Based Allocation**
+    - Intervals are allocated based on a **priority queue**, where the priority is determined by:
+        - Execution frequency (hot paths get higher priority).
+        - Spill cost (how expensive it is to store/load values to/from memory).
+4. **Spill Heuristics**
+    - If no free register is available, the allocator considers spilling:
+        - It prefers to spill varaibles that are used less frequently.
+        - It tries to spill intervals that have minimal impact on execution performance.
+5. **Splitting for Locality**
+    - Instead of completely spilling a variable, **interval splitting** allows parts of the variable's lifetime to remain in registers while spilling other parts.
+    - This reduces redundant spills and reloads, improving performance.
+6. **Recoloring for Better Untilization**
+    - If a register cannot be assigned due to conflicts, **live interval recoloring** attempts to adjust allocations to free up registers for critical values.
+
+#### Key Steps
+1. **Compute Live Intervals**:  
+    Determine the lifetime of each value.
+2. **Sort Intervals by Priority**:  
+    Prioritize allocation based on execution frequency and spill cost.
+3. **Try to Assign Registers**:  
+    Allocate registers greedily, considering conflicts.
+4. **Spill If Necessary**:  
+    If no register is available, spill the least critical value.
+5. **Split Intervals for Optimization**:  
+    Reduce spill cost by splitting live intervals.
+6. **Recolor If Needed**:  
+    Reassign registers dynamically to optimize usage.
 
 ---
 
