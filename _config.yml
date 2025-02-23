@@ -16,7 +16,7 @@ timezone: Asia/Shanghai
 
 title: Good is good # the main title
 
-tagline: Decoding Computer Architectures # it will display as the subtitle
+tagline: Exploring Computer Architectures # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   Computer Architecture, Compiler, Parallel Computing
