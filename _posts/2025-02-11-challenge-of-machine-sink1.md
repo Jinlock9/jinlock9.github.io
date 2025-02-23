@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Challenges of Machine Code Sinking in VLIW Architectures - A Scheduling Perspective
+title: Challenges of Machine Code Sinking in VLIW Architectures [1] - A Scheduling Perspective
 date: 2025-02-11 02:22 +0800
 categories: [Discussion, Compiler]
 tags: vliw_architecture instruction_scheduling machine-sink

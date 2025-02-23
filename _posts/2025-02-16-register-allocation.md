@@ -17,7 +17,7 @@ At school, I primarily learned about performance bottlenecks caused by accessing
 I encountered this problem when I attempted to allow code sinking under certain conditions. I initially assumed this would not worsen performance, but in some cases, it led to even greater performance degradation. This was due to high register pressure in the parent block.
 
 I came across the concept that 
-#### *"This secondary effect that results from instruction scheduling in large code segments is called register pressure."*
+#### *"This secondary effect that results from instruction scheduling in large code segments is called register pressure." [1]*
 As I consider merging basic blocks to improve instruction-level parallelism (ILP) for machine scheduling, I realize that understanding register management is crucial before working with large code segments. Efficient register handling will help mitigate register pressure and optimize performance.
 
 ---
