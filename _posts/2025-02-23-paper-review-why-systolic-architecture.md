@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Review - Why Systolic Architectures?
-date: 2025-03-08 18:35 +0800
+date: 2025-02-23 23:20 +0800
 categories: [Paper, Computer_Architecture]
 tags: computer_architecture systolic_array specical_purpose_architecture
 author: jinlock
