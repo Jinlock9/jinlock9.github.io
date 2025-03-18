@@ -47,7 +47,7 @@ Going forward, I plan to explore **strategies for managing VLIW complexity and l
 
 ### Key Points
 
-For those short on time, here are the key takeaways, summarized with the help of ChatGPT:
+For those short on time, here are the key takeaways:
 
 #### Problems with Traditional Parallel Architectures
 - **Vector machines and multiprocessors** provide **coarse-grained parallelism**, which is difficult for compilers to exploit.
