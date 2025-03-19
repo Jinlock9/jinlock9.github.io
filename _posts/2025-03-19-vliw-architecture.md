@@ -28,7 +28,7 @@ VLIW processors require **wide instruction words** to encode multiple operations
 
 #### **Instruction Format**
 A **typical VLIW instruction** consists of **multiple fields**, each assigned to a specific **functional unit**:
-```yaml
+```
 Example:
 
 |     ALU Op     |     FPU Op     |  Load/Store Op   | Branch Op  |
@@ -39,15 +39,33 @@ Example:
 - Functional units operate **independently** but execute **simultaneously**.
 
 ### **VLIW vs. Superscalar Processors**
-| Feature | **VLIW Processor** | **Superscalar Processor** |
-|----------|--------------------|--------------------------|
-| **Instruction Scheduling** | **Static** (done at compile-time) | **Dynamic** (done at runtime) |
-| **Execution Order** | **Fixed order** – No reordering at runtime | **Out-of-order execution possible** |
-| **Branch Prediction** | Not required | Required to avoid pipeline stalls |
-| **Hardware Complexity** | **Simpler** (no dependency checking, no reorder buffer) | **Complex** (dynamic scheduling, speculation) |
-| **Compiler Role** | **Critical** – Compiler handles ILP | **Less critical** – Hardware extracts ILP |
-| **Handling of Stalls** | Entire instruction word stalls if one operation stalls | Independent instructions continue execution |
-| **Example Processors** | Intel Itanium, TI C6000 DSP | Intel Core, AMD Ryzen |
+1. **Instruction Scheduling**  
+   - **VLIW Processor:** Static (done at compile-time)  
+   - **Superscalar Processor:** Dynamic (done at runtime)  
+
+2. **Execution Order**  
+   - **VLIW Processor:** Fixed order – No reordering at runtime  
+   - **Superscalar Processor:** Out-of-order execution possible  
+
+3. **Branch Prediction**  
+   - **VLIW Processor:** Not required  
+   - **Superscalar Processor:** Required to avoid pipeline stalls  
+
+4. **Hardware Complexity**  
+   - **VLIW Processor:** Simpler (no dependency checking, no reorder buffer)  
+   - **Superscalar Processor:** Complex (dynamic scheduling, speculation)  
+
+5. **Compiler Role**  
+   - **VLIW Processor:** Critical – Compiler handles ILP  
+   - **Superscalar Processor:** Less critical – Hardware extracts ILP  
+
+6. **Handling of Stalls**  
+   - **VLIW Processor:** Entire instruction word stalls if one operation stalls  
+   - **Superscalar Processor:** Independent instructions continue execution  
+
+7. **Example Processors**  
+   - **VLIW Processor:** Intel Itanium, TI C6000 DSP  
+   - **Superscalar Processor:** Intel Core, AMD Ryzen    
 
 ---
 
@@ -59,7 +77,7 @@ Because of this, the **compiler** is critical to the architecture. From the star
 
 Since instruction scheduling is entirely handled by the compiler, it is crucial to extract enough ILP (Instruction-Level Parallelism) at compile time. Regular compilers typically work at the **basic block** level, but **basic blocks have severely limited parallelism**, making it necessary to develop compilers specifically optimized for VLIW [1]. The paper *"Parallel processing: a smart compiler and a dumb machine."* introduces **trace scheduling**, a technique that helps **increase ILP during machine scheduling** by treating multiple basic blocks as a single large basic block [1].
 
-#### *"To avoid parallel limitation, increasing path length, excessive code motion, pipeline stalls because of branches, and many other problems which limit the performance of a VLIW processors, hardware and software scheduling techniques were proposed. [2]"*
+#### *"To avoid parallel limitation, increasing path length, excessive code motion, pipeline stalls because of branches, and many other problems which limit the performance of a VLIW processors, hardware and software scheduling techniques were proposed (). [2]"*
 This sentence is especially critical for me because I am currently working on Machine Code Sinking, a compiler-level optimization technique that performs code motion and introduces extra control paths (branches). This is unavoidable since I have to work with LLVM. I may need to discuss later how to customize an optimization technique designed for sequential programs to fit the VLIW architecture.
 
 ### **Reference**
