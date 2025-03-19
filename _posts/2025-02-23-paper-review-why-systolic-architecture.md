@@ -27,7 +27,7 @@ A **systolic architecture** has several key features:
 
 To understand why systolic architecture is a general solution, we must first examine the key issues in designing special-purpose systems.
 
-### Key Architectural Issues in Designing Special-Purpose Systems 
+### **Key Architectural Issues in Designing** Special-Purpose Systems 
 1. Simple and Regular Design  
    - Special-purpose systems must be cost-effective, with low design costs.  
    - Using simple, repetitive structures reduces complexity and improves scalability.  
@@ -43,7 +43,7 @@ To understand why systolic architecture is a general solution, we must first exa
 
 --- 
 
-### Basic Principle
+### **Basic Principle**
 A **systolic system** consists of interconnected **processing cells**, where data flows in *a pipelined manner*, enabling *high computational throughput* without increasing memory bandwidth.  
 
 1. **Regular Structure** - Processing elements (PEs) are arranged in a systolic array or tree, enabling simple and efficient communication.
@@ -55,8 +55,8 @@ A **systolic system** consists of interconnected **processing cells**, where dat
 
 ---
 
-### Designs
-#### B1 : Broadcast Inputs, Move Results, Weights Stay
+### **Designs**
+#### **B1 : Broadcast Inputs, Move Results, Weights Stay**
 - Each weight (wi) is preloaded into a dedicated cell and remains static.
 - Inputs (xi) are broadcast to all cells.
 - Partial sums (yi) move from left to right through the array, accumulating results.
@@ -66,7 +66,7 @@ A **systolic system** consists of interconnected **processing cells**, where dat
 - Disadvantages:
    - Requires wide systolic paths for moving partial sums, increasing complexity.
 
-#### B2 : Broadcast Inputs, Move Weights, Results Stay  
+#### **B2 : Broadcast Inputs, Move Weights, Results Stay**
 - Inputs (xi) are broadcast to all cells.  
 - Weights (wi) move through the array.  
 - Partial sums (yi) stay in place and accumulate results.  
@@ -76,7 +76,7 @@ A **systolic system** consists of interconnected **processing cells**, where dat
 - Disadvantages:  
   - Requires a global bus for collecting outputs.  
 
-#### F : Fan-in Results, Move Inputs, Weights Stay  
+#### **F : Fan-in Results, Move Inputs, Weights Stay**  
 - Weights (wi) are fixed in place.  
 - Inputs (xi) move rightward through the array.  
 - Each cell computes a multiplication, and results are fanned-in to an adder.  
@@ -87,7 +87,7 @@ A **systolic system** consists of interconnected **processing cells**, where dat
   - Fan-in logic adds complexity.  
   - Unbounded fan-in limits scalability.  
 
-#### R1 : Results Stay, Inputs and Weights Move in Opposite Directions  
+#### **R1 : Results Stay, Inputs and Weights Move in Opposite Directions**  
 - Inputs (xi) move rightward, weights (wi) move leftward.  
 - Each cell accumulates results at a stationary location.  
 - Outputs move through a systolic output path.  
@@ -98,7 +98,7 @@ A **systolic system** consists of interconnected **processing cells**, where dat
   - Only half the cells are active at a time.  
   - Requires a systolic output path.  
 
-#### R2 : Results Stay, Inputs and Weights Move in the Same Direction  
+#### **R2 : Results Stay, Inputs and Weights Move in the Same Direction**  
 - Inputs (xi) and weights (wi) move rightward, but at different speeds.  
 - Weights stay longer in each cell before moving.  
 - Advantages:  
@@ -107,7 +107,7 @@ A **systolic system** consists of interconnected **processing cells**, where dat
 - Disadvantages:  
   - Requires extra storage for weights in each cell.  
 
-#### W1 : Weights Stay, Inputs and Results Move in Opposite Directions  
+#### **W1 : Weights Stay, Inputs and Results Move in Opposite Directions**  
 - Weights (wi) are preloaded and remain static.  
 - Inputs (xi) move rightward; results (yi) move leftward.  
 - Advantages:  
@@ -116,7 +116,7 @@ A **systolic system** consists of interconnected **processing cells**, where dat
 - Disadvantages:  
   - Only half of the cells are utilized at any given time.  
 
-#### W2 : Weights Stay, Inputs and Results Move in the Same Direction at Different Speeds  
+#### **W2 : Weights Stay, Inputs and Results Move in the Same Direction at Different Speeds**  
 - Inputs (xi) and results (yi) both move rightward, but at different speeds.  
 - Advantages:  
   - Ensures all cells are utilized throughout the computation.  
@@ -126,21 +126,21 @@ A **systolic system** consists of interconnected **processing cells**, where dat
 
 ---
 
-### Criteria and Advantages
-#### (1) The design makes multiple use of each input data item 
+### **Criteria and Advantages**
+#### **(1) The design makes multiple use of each input data item** 
 Systolic architectures *reuse input data* multiple times to reduce memory access. This improves efficiency and allows for *better performance without increasing memory bandwidth*.  
 
-#### (2) The design uses extensive concurrency  
+#### **(2) The design uses extensive concurrency**  
 By *processing multiple operations in parallel* through pipelining and multiprocessing, systolic systems increase speed. Some designs also *overlap I/O and computation*, minimizing delays.  
 
-#### (3) There are only a few types of simple cells  
+#### **(3) There are only a few types of simple cells**  
 Using *a few simple, repetitive cells* makes the design easier to build and cost-effective. More complex cells can add flexibility but may *increase design complexity*.  
 
-#### (4) Data and control flows are simple and regular  
+#### **(4) Data and control flows are simple and regular**  
 Data moves in a *fixed pattern between nearby cells*, avoiding long-distance connections. A *single system clock* keeps everything synchronized, making expansion straightforward.  
 
 
-### Insights
+### **Insights**
 #### *"I/O and computation imbalance is notable ... fact that I/O interfaces cannot keep up with device speed is discovered only after constructing a high-speed, special purpose device."*
 This sentence reminds me of how critical the **I/O-bound bottleneck** can be. When I implemented an **MLP Neural Network Accelerator** for a college project, I encountered a similar issue—despite optimizing the computation, the system’s performance was ultimately limited by data transfer through the **I/O interfaces**. To work effectively on various **SoCs**, I need to explore different methodologies to mitigate this bottleneck.
 
@@ -153,5 +153,5 @@ I should be aware that something that is theoretically and computationally compu
 #### *"another level of pipelining by allowing the operations inside the cells themselves to be pipelined. ... building blocks can be programmed to form basic cells for a number of systolic systems."*
 I had not considered that complex building blocks might function as basic cells while also supporting pipelining. This makes me wonder if systolic architecture could be applied on a larger scale.
 
-### Reference
+### **Reference**
 H. T. Kung, *"Why Systolic Architectures?"* Computer, vol. 15, no. 1, pp. 37–46, Jan. 1982.

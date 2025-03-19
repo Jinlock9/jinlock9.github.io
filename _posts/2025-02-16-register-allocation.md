@@ -22,25 +22,25 @@ As I consider merging basic blocks to improve instruction-level parallelism (ILP
 
 ---
 
-### Register Allocation
+### **Register Allocation**
 **Register allocation** is the process of assigning program variables to a limited number of CPU registers to optimize execution speed and minimize memory access. Since registers are much faster than main memory, efficient allocation can significantly improve performance.
 
 Key idea is that not every varaiable is **in-use ("live")**. Therefore, when there are not enough registers, some variables maybe move to and from RAM, and this is called ***spilling*** the register. And those varaiables which can be spilled and stored in register are considered as ***split***. And the high ***register pressure*** means there are more spills and reloads are needed [2].
 
 Register allocation determines where variables are stored during execution — either in registers or memory. The allocator must decide **which registers to use** and **how long a variable should stay** in a specific location [2].
 
-#### Key Steps in Register Allocation
+#### **Key Steps in Register Allocation**
 - Liveness Analysis – Determines which variables are "live" at each point in the program, meaning they hold a value that will be used later.
 - Register Assignment – Allocates registers to variables based on their liveness and usage frequency.
 - Spilling – If there are more live variables than available registers, some variables are stored in memory and reloaded when needed.
 - Move Optimization (Coalescing) – Reduces unnecessary register-to-register moves to improve efficiency.
 
-#### Common Challenges in Register Allocation
+#### **Common Challenges in Register Allocation**
 - Aliasing: Some architectures allow different-sized accesses to the same register, causing unintended side effects.
 - Pre-coloring: Some registers are reserved for specific functions (e.g., function arguments in calling conventions).
 - NP-Completeness: Register allocation is computationally complex since it can be reduced to the graph coloring problem.
 
-#### Register Allocation Strategies
+#### **Register Allocation Strategies**
 - Graph Coloring Allocation – Represents variables as nodes in a graph, where edges indicate conflicting variable usage. Registers are assigned using graph coloring techniques.
 - Linear Scan Allocation – A simpler, faster approach used in Just-In-Time (JIT) compilers, which processes variables in a linear order based on their lifetimes.
 - Priority-based Allocation – Assigns registers based on variable usage frequency, favoring frequently used variables.
@@ -49,10 +49,10 @@ Now, let's dig into LLVM's primary strategies: **linear scan allocation** and **
 
 ---
 
-### Linear Scan Allocation
+### **Linear Scan Allocation**
 I referred to the lecture note by *Chaofan Lin*.
 
-#### Basic Definitions on Liveness
+#### **Basic Definitions on Liveness**
 1. A variable is **live** if it may be read in the later before it is written.
     - *"define"*: writing a varaible
     - *"use"*: reading a varaible
@@ -62,7 +62,7 @@ I referred to the lecture note by *Chaofan Lin*.
 3. The **live interval** of a variable is the smallest interval containing the *live range*.
     - Live interval **ignores holes** -> conservative estimate of the live range
 
-#### Basic Linear Scan Algorithm
+#### **Basic Linear Scan Algorithm**
 - **Linear Scan Register Allocation (LSRA)** proceeds the live intervals sorted by their *start positions* and allocate register greedily:
     - If a live interval **begins**, it selects a free register and allocate.
     - If a live interval **ends**, the allocated register is marked as *free* again.
@@ -75,7 +75,7 @@ I referred to the lecture note by *Chaofan Lin*.
     - simple and runs very fast
     - *not good enough*
 
-#### *Second Chance Binpacking*
+#### **Second Chance Binpacking**
 As *LSRA* ignore holes in the live intervals, a **binpacking** model deals allocations in a finer grain size.
 
 - **Binpacking Model**
@@ -94,11 +94,11 @@ As *LSRA* ignore holes in the live intervals, a **binpacking** model deals alloc
 
 ---
 
-### Greedy Register Allocation
+### **Greedy Register Allocation**
 *Greedy Register Allocation* is the register allocation algorithm introduced in LLVM 3.0 to improve the efficiency of register allocation while maintaining good performance.  
 It replaces the earlier *linear scan* allocator and provides more flexible and extensible framework.
 
-#### Key Concepts
+#### **Key Concepts**
 1. **Spilling and Eviction-Based Strategy**
     - Instead of performing register allocation in a single pass, the allocator continuously refines its decisions, using heuristics to determin which values to keep in registers and which to spill to memory.
 2. **Live Intervals and Interference Graph**
@@ -118,7 +118,7 @@ It replaces the earlier *linear scan* allocator and provides more flexible and e
 6. **Recoloring for Better Untilization**
     - If a register cannot be assigned due to conflicts, **live interval recoloring** attempts to adjust allocations to free up registers for critical values.
 
-#### Key Steps
+#### **Key Steps**
 1. **Compute Live Intervals**:  
     Determine the lifetime of each value.
 2. **Sort Intervals by Priority**:  
@@ -134,7 +134,7 @@ It replaces the earlier *linear scan* allocator and provides more flexible and e
 
 ---
 
-### Reference
+### **Reference**
 - [1] J. L. Hennessy and D. A. Patterson, *Computer Architecture: A Quantitative Approach*, 6th ed. San Francisco, CA, USA: Morgan Kaufmann, 2019.  
 - [2] "Register Allocation," Wikipedia, The Free Encyclopedia. [Online]. Available: https://en.wikipedia.org/wiki/Register_allocation. [Accessed: 16-02-2025].  
 - [3] D. Greene, "Greedy Register Allocation in LLVM 3.0," LLVM Project Blog, Sept. 2011. [Online]. Available: https://blog.llvm.org/2011/09/greedy-register-allocation-in-llvm-30.html. [Accessed: 16-02-2025].

@@ -7,7 +7,7 @@ tags: vliw_architecture trace_scheduling parallel_processing compiler
 author: jinlock
 description: Reviewing "Parallel Processing - A Smart Compiler and a Dumb Machine"
 toc: false
-published: true
+published: false
 ---
 
 To better understand VLIW architecture, I read the paper **Parallel Processing: A Smart Compiler and a Dumb Machine** by *Joseph A. Fisher, John R. Ellis, John C. Ruttenberg, and Alexandru Nicolau*.
@@ -88,5 +88,5 @@ For those short on time, here are the key takeaways:
 ---
 
 ### Reference
-J. A. Fisher, J. R. Ellis, J. C. Ruttenberg, and A. Nicolau, *"Parallel Processing: A Smart Compiler and a Dumb Machine,"* Proceedings of the ACM SIGPLAN '84 Symposium on Compiler Construction, **SIGPLAN Notices**, vol. 19, no. 6, pp. 37–47, June 1984.
+Fisher, Joseph A., John R. Ellis, John C. Ruttenberg and Alexandru Nicolau. “Parallel processing: a smart compiler and a dumb machine.” SIGPLAN Conferences and Workshops (1984).
 

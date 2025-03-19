@@ -7,7 +7,7 @@ tags: vliw_architecture instruction_scheduling machine-sink
 author: jinlock
 description: Discussing performance degradation caused by LLVM machine-sink and possible solutions
 toc: false
-published: true
+published: false
 ---
 
 I am working on the development of an LLVM-based compiler for a custom Tensor Processing Unit. My supervisor's first directive was to analyze why LLVM's machine sinking adversely affects the number of cycles in executing certain kernels. 

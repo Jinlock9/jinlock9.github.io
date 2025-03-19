@@ -16,18 +16,18 @@ As I explored different computer architectures, I came across *Decoupled Access/
 
 ![DECOUPLED ACCESS/EXECUTE COMPUTER ARCHITECTURES](../assets/img/posts/2025-03-09-paper-review-decoupled-access-execute-arch.jpg)
 
-### Review
+### **Review**
 The core idea behind the Decoupled Access/Execute (DAE) Architecture is to let the A-Processor resolve branches and address-related operations **AHEAD** of the E-Processor, allowing the E-Processor to execute other operations with minimal load/store overhead. Implementing this using the register file with some additional control logic was particularly impressive.  
 
-At first glance, I thought it resembled a general architecture with an extra addressing unit, but it turned out to be much more sophisticated and advanced. Although the paper states that DAE reduces the programmer’s burden compared to other array processors, having recently worked on compiler development, I couldn’t help but feel that this reduction wasn’t quite enough (joke). 
+At first glance, I thought it resembled a general architecture with a separate addressing unit, but it turned out to be much more sophisticated and advanced. Although the paper states that DAE reduces the programmer’s burden compared to other array processors, having recently worked on compiler development, I couldn’t help but feel that this reduction wasn’t quite enough (joke). 
 
 ---
 
-### Summary
-#### 1. Introduction
+### **Summary**
+#### **1. Introduction**
 Traditional scalar computer architectures suffer from instruction issue bottlenecks (*"instruction pass at the maximum rate of one per clock period"*) and memory communication delays. The *Decoupled Access/Execute (DAE)* architecture aims to mitigate these issues by separating operand access from execution. DAE consists of two independent instruction streams communitcating via queues, reducing programmer burden and increasing performance.
 
-#### 2. Architecture Overview
+#### **2. Architecture Overview**
 The architecture comprises two processors:
 
 - **Access Processor (A-Processor)**: Handles memory accesses, address calculations, and data transfers.
@@ -40,10 +40,10 @@ Data flows between the processors using **FIFO queues**:
 
 Memory stores are handled asynchronously to improve execution speed.
 
-#### 3. Handling Memory Stores
+#### **3. Handling Memory Stores**
 Stores are issued as soon as addresses are computed, without waiting for data. This approach allows loads to proceed without being blocked by pending stores. A **Write Address Queue (WAQ)** holds store addresses until corresponding data is available. A potential issue is store-load conflicts, which can be resolved via *interlocks* or *associative comparison* in hardware.
 
-#### 4. Conditional Branch Instructions
+#### **4. Conditional Branch Instructions**
 Branches must be synchronized between A-processor and E-processor.  
 
 Two additional queues:
@@ -53,13 +53,13 @@ Two additional queues:
 
 This ensures efficient handling of conditional branches, allowing the A-processor to run ahead when possible.
 
-#### 5. Queue Architecture and Implementation
+#### **5. Queue Architecture and Implementation**
 The queues are implemented as circular buffers within the processors: *"make some of the general purpose registers the queue heads and tails"*. Register-based queues eliminate the need for special instructions. The **queue full/empty status** is tracked using **busy bits**, preventing deadlock.
 
-#### 6. Performance Improvement
+#### **6. Performance Improvement**
 Performance is evaluated using the *Lawrence Livermore Loops* benchmark. The DAE approach acheives an average speedup fo *1.71x*, with some loops reaching *2.5x* improvement. The decoupling allows more efficient instruction issuing compared to traditional scalar architectures.
 
-#### 7. Single Instruction Stream DAE Architecture
+#### **7. Single Instruction Stream DAE Architecture**
 The dual-instruction stream model is effective but introduces some disadvantages:
 - The programmer (and/or compiler writer) must deal with two interacting instruction streams.
 - Two separate instruction fetch and decode units are needed.
@@ -69,15 +69,15 @@ Alternative approach: **Interleaved Instruction Stream**
   - Simplifies software development.
   - But, reintroduces the one instruction per clock period bottlenech in the IF/ID pipeline.
 
-#### 8. Deadlock Issues
+#### **8. Deadlock Issues**
 Deadlocks occur when **both queues are either full or empty**, causing processors to stall. To prevent, proper **instruction interleaving** ensures that a send operation always precedes a receive operation. Also, a well-structured program guarantees deadlock-free execution.
 
-#### 9. Conclusions
+#### **9. Conclusions**
 DAE architectures offer significant performance improvements while reducing programming complexity.
 
 ---
 
-### Insights
+### **Insights**
 #### *"need for processors that can diminish the effects of increased memory communication time (112)."*
 #### *"By architecturally decoupling data access from execution, it is possible to construct implementations that provide much of the performance improvement offered by complex issuing methods, but without significant design complexity. In addition in can allow considerable memory communication delay to be hidden (112)."*
 #### *"The issuing stores before data is available is an important factor in improving performance, because it allows load instructions to be issued without waiting for previous store instructions (114)"*
@@ -85,5 +85,5 @@ DAE architectures offer significant performance improvements while reducing prog
 
 ---
 
-### Reference
+### **Reference**
 James E. Smith. 1982. Decoupled access/execute computer architectures. SIGARCH Comput. Archit. News 10, 3 (April 1982), 112–119. https://doi.org/10.1145/1067649.801719
