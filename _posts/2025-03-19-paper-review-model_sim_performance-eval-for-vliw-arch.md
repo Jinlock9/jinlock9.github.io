@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Review - MODEL SIMULATION AND PERFORMANCE EVALUATION FOR A VLIW ARCHITECTURE 
+title: Review - Model Simulation and Performance Evaluation for a VLIW Architecture 
 date: 2025-03-19 22:00 +0800
 categories: [Paper, Computer_Architecture]
 tags: computer_architecture vliw_architecture

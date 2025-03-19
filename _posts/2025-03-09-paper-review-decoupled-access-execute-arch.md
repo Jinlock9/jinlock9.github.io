@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Review - DECOUPLED ACCESS/EXECUTE COMPUTER ARCHITECTURES 
+title: Review - Decoupled Access/Execute Computer Architectures
 date: 2025-03-09 22:50 +0800
 categories: [Paper, Computer_Architecture]
 tags: computer_architecture dae_architecture
