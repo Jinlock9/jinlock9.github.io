@@ -1,6 +1,6 @@
 ---
 layout: post
-title: VLIW (Very Long Instruction Word) Architecture 
+title: Very Long Instruction Word (VLIW) Architecture 
 date: 2025-03-19 22:00 +0800
 categories: [Review, Computer_Architecture]
 tags: computer_architecture vliw_architecture vliw
