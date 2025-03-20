@@ -3,7 +3,7 @@ layout: post
 title: VLIW (Very Long Instruction Word) Architecture 
 date: 2025-03-19 22:00 +0800
 categories: [Review, Computer_Architecture]
-tags: computer_architecture vliw_architecture
+tags: computer_architecture vliw_architecture vliw
 author: jinlock
 description: Exploring VLIW Architecture
 toc: false
