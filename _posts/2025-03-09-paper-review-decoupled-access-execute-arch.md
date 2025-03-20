@@ -17,7 +17,7 @@ As I explored different computer architectures, I came across *Decoupled Access/
 ![DECOUPLED ACCESS/EXECUTE COMPUTER ARCHITECTURES](../assets/img/posts/2025-03-09-paper-review-decoupled-access-execute-arch.jpg)
 
 ### **Review**
-The core idea behind the Decoupled Access/Execute (DAE) Architecture is to let the A-Processor resolve branches and address-related operations **AHEAD** of the E-Processor, allowing the E-Processor to execute other operations with minimal load/store overhead. Implementing this using the register file with some additional control logic was particularly impressive.  
+The core idea of the Decoupled Access/Execute (DAE) architecture is to separate memory access and execution into two independent instruction streams — one handling memory operations and the other performing computations. These two streams communicate asynchronously via FIFO queues, allowing execution to proceed without being stalled by memory access delays. 
 
 At first glance, I thought it resembled a general architecture with a separate addressing unit, but it turned out to be much more sophisticated and advanced. Although the paper states that DAE reduces the programmer’s burden compared to other array processors, having recently worked on compiler development, I couldn’t help but feel that this reduction wasn’t quite enough (joke). 
 
@@ -44,6 +44,8 @@ Memory stores are handled asynchronously to improve execution speed.
 Stores are issued as soon as addresses are computed, without waiting for data. This approach allows loads to proceed without being blocked by pending stores. A **Write Address Queue (WAQ)** holds store addresses until corresponding data is available. A potential issue is store-load conflicts, which can be resolved via *interlocks* or *associative comparison* in hardware.
 
 #### **4. Conditional Branch Instructions**
+The A-Processor should determine as many conditional branches as possible instead of the E-Processor (Execute Processor). This approach reduces the E-Processor's dependency on the A-Processor, allowing the A-Processor to run ahead without being blocked.  
+
 Branches must be synchronized between A-processor and E-processor.  
 
 Two additional queues:
