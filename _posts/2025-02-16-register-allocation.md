@@ -135,6 +135,6 @@ It replaces the earlier *linear scan* allocator and provides more flexible and e
 ---
 
 ### **Reference**
-- [1] J. L. Hennessy and D. A. Patterson, *Computer Architecture: A Quantitative Approach*, 6th ed. San Francisco, CA, USA: Morgan Kaufmann, 2019.  
-- [2] "Register Allocation," Wikipedia, The Free Encyclopedia. [Online]. Available: https://en.wikipedia.org/wiki/Register_allocation. [Accessed: 16-02-2025].  
-- [3] D. Greene, "Greedy Register Allocation in LLVM 3.0," LLVM Project Blog, Sept. 2011. [Online]. Available: https://blog.llvm.org/2011/09/greedy-register-allocation-in-llvm-30.html. [Accessed: 16-02-2025].
+- **[1]** John L. Hennessy and David A. Patterson. 2017. Computer Architecture, Sixth Edition: A Quantitative Approach (6th. ed.). Morgan Kaufmann Publishers Inc., San Francisco, CA, USA.  
+- **[2]** "Register Allocation," Wikipedia, The Free Encyclopedia. [Online]. Available: https://en.wikipedia.org/wiki/Register_allocation. [Accessed: 16-02-2025].  
+- **[3]** D. Greene, "Greedy Register Allocation in LLVM 3.0," LLVM Project Blog, Sept. 2011. [Online]. Available: https://blog.llvm.org/2011/09/greedy-register-allocation-in-llvm-30.html. [Accessed: 16-02-2025].
