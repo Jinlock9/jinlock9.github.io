@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Tensor Processing Unit (TPU)
-date: 2025-03-21 22:00 +0800
+date: 2025-03-21 10:00 +0800
 categories: [Review, Computer_Architecture]
 tags: computer_architecture tensor_processing_unit tpu
 author: jinlock
