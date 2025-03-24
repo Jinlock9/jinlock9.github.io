@@ -23,6 +23,14 @@ VLIW (Very Long Instruction Word) is a **parallel processing architecture** that
 - **Simple hardware** (no out-of-order execution, no dynamic scheduling).
 - **High instruction-level parallelism (ILP)** if the compiler optimally schedules instructions.
 
+Additionally, in contrast to out-of-order (OOO) architectures, VLIW eliminates the need for:
+- Complex scheduling logic and dynamic speculation hardware
+- Expensive structures that often scale with **O(N²)** in superscalar systems
+
+By simplifying hardware and exposing the microarchitecture (e.g., functional units and their latencies) to the compiler, VLIW aims to reduce power consumption and potentially allow for faster clock speeds.
+
+---
+
 ### **VLIW Instruction Packing & Execution**
 VLIW processors require **wide instruction words** to encode multiple operations per cycle.
 
@@ -37,6 +45,8 @@ Example:
 ```
 - The compiler ensures that **all operations in an instruction word can execute in parallel**.
 - Functional units operate **independently** but execute **simultaneously**.
+
+---
 
 ### **VLIW vs. Superscalar Processors**
 1. **Instruction Scheduling**  
@@ -73,6 +83,12 @@ Example:
 
 VLIW architecture was introduced as an alternative to traditional superscalar processors. By assigning all scheduling responsibilities to software, VLIW **removes hardware complexity**, such as intricate instruction scheduling and parallel dispatch [2]. Also, VLIW **enables fine-grained parallelism**, fully controlled by the compiler, whereas vector machines and multiprocessors provide coarse-grained parallelism, which is difficult for compilers to exploit [1].  
 
+The key idea is to **expose the microarchitecture to the compiler**, providing full visibility into available functional units and their latencies. The **compiler statically checks all dependencies** and produces an instruction schedule that the hardware blindly executes in parallel—**without O(N²)** checks or dynamic hazard detection logic.
+
+However, this raises questions:
+- Can the compiler handle all types of hazards, especially memory dependencies and control hazards?
+- Is it feasible to rely solely on static scheduling for modern workloads?
+
 Because of this, the **compiler** is critical to the architecture. From the start, VLIW was designed with the assumption that it would be developed alongside its compiler [1]. Various software techniques, such as software pipelining and trace scheduling, exist to support VLIW [2].  
 
 Since instruction scheduling is entirely handled by the compiler, it is crucial to extract enough ILP (Instruction-Level Parallelism) at compile time. Regular compilers typically work at the **basic block** level, but **basic blocks have severely limited parallelism**, making it necessary to develop compilers specifically optimized for VLIW [1]. The paper *"Parallel processing: a smart compiler and a dumb machine."* introduces **trace scheduling**, a technique that helps **increase ILP during machine scheduling** by treating multiple basic blocks as a single large basic block [1].
@@ -80,6 +96,8 @@ Since instruction scheduling is entirely handled by the compiler, it is crucial 
 > To avoid parallel limitation, increasing path length, excessive code motion, pipeline stalls because of branches, and many other problems which limit the performance of a VLIW processors, hardware and software scheduling techniques were proposed. [2]
 
 This sentence is especially critical for me because I am currently working on Machine Code Sinking, a compiler-level optimization technique that performs code motion and introduces extra control paths (branches). This is unavoidable since I have to work with LLVM. I may need to discuss later how to customize an optimization technique designed for sequential programs to fit the VLIW architecture.
+
+---
 
 ### **Reference**
 - **[1]** Fisher, Joseph A., John R. Ellis, John C. Ruttenberg and Alexandru Nicolau. “Parallel processing: a smart compiler and a dumb machine.” SIGPLAN Conferences and Workshops (1984).  
