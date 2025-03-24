@@ -141,16 +141,20 @@ Data moves in a *fixed pattern between nearby cells*, avoiding long-distance con
 
 
 ### **Insights**
-#### *"I/O and computation imbalance is notable ... fact that I/O interfaces cannot keep up with device speed is discovered only after constructing a high-speed, special purpose device."*
+> I/O and computation imbalance is notable ... fact that I/O interfaces cannot keep up with device speed is discovered only after constructing a high-speed, special purpose device.
+
 This sentence reminds me of how critical the **I/O-bound bottleneck** can be. When I implemented an **MLP Neural Network Accelerator** for a college project, I encountered a similar issue—despite optimizing the computation, the system’s performance was ultimately limited by data transfer through the **I/O interfaces**. To work effectively on various **SoCs**, I need to explore different methodologies to mitigate this bottleneck.
 
-#### *"The challenge is to understand precisely the strengths and drawbacks of each design so that an appropriate design can be selected for a given ensironment."*
+> The challenge is to understand precisely the strengths and drawbacks of each design so that an appropriate design can be selected for a given ensironment.  
+
 The paper suggests that systolic architecture could be a good solution for addressing **I/O bottlenecks** in SoC systems. I should analyze different designs to make the best choice.
 
-#### *"a problem that was originally compute-bound can become I/O-bound during its execution. ...  Systolic architectures, which ensure multiple computations per memory access, can speed up compute-bound computations without increasing I/O requirements."*
+> a problem that was originally compute-bound can become I/O-bound during its execution. ...  Systolic architectures, which ensure multiple computations per memory access, can speed up compute-bound computations without increasing I/O requirements.
+
 I should be aware that something that is theoretically and computationally compute-bound can, in practice, become I/O-bound. Also, Systolic architecture seems to be a good approach for handling compute-bound tasks without adding extra I/O load. It might be a good option when dealing with a system that has fixed I/O.
 
-#### *"another level of pipelining by allowing the operations inside the cells themselves to be pipelined. ... building blocks can be programmed to form basic cells for a number of systolic systems."*
+> another level of pipelining by allowing the operations inside the cells themselves to be pipelined. ... building blocks can be programmed to form basic cells for a number of systolic systems.
+
 I had not considered that complex building blocks might function as basic cells while also supporting pipelining. This makes me wonder if systolic architecture could be applied on a larger scale.
 
 ### **Reference**

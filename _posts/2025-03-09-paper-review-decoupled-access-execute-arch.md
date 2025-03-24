@@ -80,10 +80,13 @@ DAE architectures offer significant performance improvements while reducing prog
 ---
 
 ### **Insights**
-#### *"need for processors that can diminish the effects of increased memory communication time (112)."*
-#### *"By architecturally decoupling data access from execution, it is possible to construct implementations that provide much of the performance improvement offered by complex issuing methods, but without significant design complexity. In addition in can allow considerable memory communication delay to be hidden (112)."*
-#### *"The issuing stores before data is available is an important factor in improving performance, because it allows load instructions to be issued without waiting for previous store instructions (114)"*
-#### *"By using two processors a speedup of greater than two is achieved because the issue logic in a pipelined processor typically spends more time waiting to issue instructions than actually issuing them (117)."*
+> need for processors that can diminish the effects of increased memory communication time (112).
+
+> By architecturally decoupling data access from execution, it is possible to construct implementations that provide much of the performance improvement offered by complex issuing methods, but without significant design complexity. In addition in can allow considerable memory communication delay to be hidden (112).
+
+> The issuing stores before data is available is an important factor in improving performance, because it allows load instructions to be issued without waiting for previous store instructions (114).
+
+> By using two processors a speedup of greater than two is achieved because the issue logic in a pipelined processor typically spends more time waiting to issue instructions than actually issuing them (117).
 
 ---
 

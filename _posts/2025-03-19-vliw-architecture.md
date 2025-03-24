@@ -77,7 +77,8 @@ Because of this, the **compiler** is critical to the architecture. From the star
 
 Since instruction scheduling is entirely handled by the compiler, it is crucial to extract enough ILP (Instruction-Level Parallelism) at compile time. Regular compilers typically work at the **basic block** level, but **basic blocks have severely limited parallelism**, making it necessary to develop compilers specifically optimized for VLIW [1]. The paper *"Parallel processing: a smart compiler and a dumb machine."* introduces **trace scheduling**, a technique that helps **increase ILP during machine scheduling** by treating multiple basic blocks as a single large basic block [1].
 
-#### *"To avoid parallel limitation, increasing path length, excessive code motion, pipeline stalls because of branches, and many other problems which limit the performance of a VLIW processors, hardware and software scheduling techniques were proposed. [2]"*
+> To avoid parallel limitation, increasing path length, excessive code motion, pipeline stalls because of branches, and many other problems which limit the performance of a VLIW processors, hardware and software scheduling techniques were proposed. [2]
+
 This sentence is especially critical for me because I am currently working on Machine Code Sinking, a compiler-level optimization technique that performs code motion and introduces extra control paths (branches). This is unavoidable since I have to work with LLVM. I may need to discuss later how to customize an optimization technique designed for sequential programs to fit the VLIW architecture.
 
 ### **Reference**
