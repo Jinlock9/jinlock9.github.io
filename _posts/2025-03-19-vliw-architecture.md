@@ -12,7 +12,7 @@ published: true
 
 I mainly learned about hardware-based parallel execution and hazard detection in university, so exploring VLIW architecture was really interesting but also quite confusing. That’s why I want to look into it more deeply.
 
-### Background
+### Background [3]
 
 In computer architecture, **issuing an instruction** refers to the act of sending an instruction to a functional unit for execution. To reduce the cycles per instruction (CPI) to less than one, it is necessary to issue multiple instructions per clock cycle, since issuing only one instruction per cycle cannot achieve CPI lower than one. The solution is **multiple issue**.
 
