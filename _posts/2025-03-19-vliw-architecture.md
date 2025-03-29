@@ -1,97 +1,50 @@
 ---
 layout: post
-title: Very Long Instruction Word (VLIW) Architecture 
+title: Very Long Instruction Word (VLIW) Processor
 date: 2025-03-19 22:00 +0800
 categories: [Review, Computer_Architecture]
-tags: computer_architecture vliw_architecture vliw
+tags: computer_architecture vliw compiler
 author: jinlock
-description: Exploring VLIW Architecture
+description: Exploring VLIW Processor
 toc: false
 published: true
 ---
 
-I realized that I had completely misunderstood the fundamental concept of VLIW architecture while exploring superscalar architectures and parallel processing. I had mistakenly thought of VLIW as a type of superscalar processor that supports multiple functional units. However, I have now come to understand that VLIW processors rely entirely on the **compiler for instruction scheduling** and follow a **strict in-order execution model**. Given this realization, I have decided to carefully review VLIW architecture once again.
+I mainly learned about hardware-based parallel execution and hazard detection in university, so exploring VLIW architecture was really interesting but also quite confusing. That’s why I want to look into it more deeply.
+
+### Background
+
+In computer architecture, **issuing an instruction** refers to the act of sending an instruction to a functional unit for execution. To reduce the cycles per instruction (CPI) to less than one, it is necessary to issue multiple instructions per clock cycle, since issuing only one instruction per cycle cannot achieve CPI lower than one. The solution is **multiple issue**.
+
+Statically scheduled superscalar processors execute instructions in-order, while dynamically scheduled superscalar processors support out-of-order execution. Both architectures can issue a varying number of instructions per clock cycle depending on data dependencies and available resources.
 
 ---
 
-### **What is VLIW Architecture?**
-VLIW (Very Long Instruction Word) is a **parallel processing architecture** that **statically schedules multiple operations** within a **single instruction word**, allowing **multiple functional units** to execute in parallel **in a single cycle**.
+### VLIW Processor
 
-#### **Key Characteristics**
-- **Fixed-width instruction words** containing multiple operations.
-- **Compiler-driven parallelism** instead of hardware-based dynamic scheduling.
-- **Simple hardware** (no out-of-order execution, no dynamic scheduling).
-- **High instruction-level parallelism (ILP)** if the compiler optimally schedules instructions.
+A **VLIW (Very Long Instruction Word) processor** issues a fixed number of instructions per clock cycle. These instructions are formatted either as a large instruction word or as a fixed instruction packet, with the parallelism among instructions indicated by the instruction itself [3]. VLIW architectures use multiple, independent functional units [3].
 
-Additionally, in contrast to out-of-order (OOO) architectures, VLIW eliminates the need for:
-- Complex scheduling logic and dynamic speculation hardware
-- Expensive structures that often scale with **O(N²)** in superscalar systems
+A typical VLIW instruction consists of multiple operation fields, each assigned to a specific functional unit. For example:
 
-By simplifying hardware and exposing the microarchitecture (e.g., functional units and their latencies) to the compiler, VLIW aims to reduce power consumption and potentially allow for faster clock speeds.
-
----
-
-### **VLIW Instruction Packing & Execution**
-VLIW processors require **wide instruction words** to encode multiple operations per cycle.
-
-#### **Instruction Format**
-A **typical VLIW instruction** consists of **multiple fields**, each assigned to a specific **functional unit**:
 ```
-Example:
-
 |     ALU Op     |     FPU Op     |  Load/Store Op   | Branch Op  |
 |----------------|----------------|------------------|------------|
 | ADD R1, R2, R3 | MUL R4, R5, R6 | LOAD R7, MEM[R8] | JUMP Label |
 ```
-- The compiler ensures that **all operations in an instruction word can execute in parallel**.
-- Functional units operate **independently** but execute **simultaneously**.
+
+The compiler ensures that all operations within a VLIW instruction can execute in parallel. Functional units operate independently and execute simultaneously.
 
 ---
 
-### **VLIW vs. Superscalar Processors**
-1. **Instruction Scheduling**  
-   - **VLIW Processor:** Static (done at compile-time)  
-   - **Superscalar Processor:** Dynamic (done at runtime)  
+### "a smart compiler and a dumb machine"
 
-2. **Execution Order**  
-   - **VLIW Processor:** Fixed order – No reordering at runtime  
-   - **Superscalar Processor:** Out-of-order execution possible  
+VLIW processors are a *logical extension of superscalar RISC processors* [2], and were introduced as an alternative to traditional superscalar architectures. They exploit instruction-level parallelism using multiple issue and static scheduling [3]. Since VLIW processors rely on compiler-based static scheduling, they remove the need for hardware mechanisms such as hazard detection and instruction scheduling [2]. This results in simpler hardware, with all scheduling responsibilities handled by the **compiler**.
 
-3. **Branch Prediction**  
-   - **VLIW Processor:** Not required  
-   - **Superscalar Processor:** Required to avoid pipeline stalls  
-
-4. **Hardware Complexity**  
-   - **VLIW Processor:** Simpler (no dependency checking, no reorder buffer)  
-   - **Superscalar Processor:** Complex (dynamic scheduling, speculation)  
-
-5. **Compiler Role**  
-   - **VLIW Processor:** Critical – Compiler handles ILP  
-   - **Superscalar Processor:** Less critical – Hardware extracts ILP  
-
-6. **Handling of Stalls**  
-   - **VLIW Processor:** Entire instruction word stalls if one operation stalls  
-   - **Superscalar Processor:** Independent instructions continue execution  
-
-7. **Example Processors**  
-   - **VLIW Processor:** Intel Itanium, TI C6000 DSP  
-   - **Superscalar Processor:** Intel Core, AMD Ryzen    
+This approach presents challenges to the compiler. To fully utilize all functional units, there must be sufficient parallelism in the code. When using local scheduling, where instruction-level parallelism is extracted within a basic block, the available parallelism is often limited [1]. To address this, global scheduling techniques such as **trace scheduling** are used to find parallelism across multiple basic blocks [1].
 
 ---
 
-### **Review & Discussion**
-
-VLIW architecture was introduced as an alternative to traditional superscalar processors. By assigning all scheduling responsibilities to software, VLIW **removes hardware complexity**, such as intricate instruction scheduling and parallel dispatch [2]. Also, VLIW **enables fine-grained parallelism**, fully controlled by the compiler, whereas vector machines and multiprocessors provide coarse-grained parallelism, which is difficult for compilers to exploit [1].  
-
-The key idea is to **expose the microarchitecture to the compiler**, providing full visibility into available functional units and their latencies. The **compiler statically checks all dependencies** and produces an instruction schedule that the hardware blindly executes in parallel—**without O(N²)** checks or dynamic hazard detection logic.
-
-However, this raises questions:
-- Can the compiler handle all types of hazards, especially memory dependencies and control hazards?
-- Is it feasible to rely solely on static scheduling for modern workloads?
-
-Because of this, the **compiler** is critical to the architecture. From the start, VLIW was designed with the assumption that it would be developed alongside its compiler [1]. Various software techniques, such as software pipelining and trace scheduling, exist to support VLIW [2].  
-
-Since instruction scheduling is entirely handled by the compiler, it is crucial to extract enough ILP (Instruction-Level Parallelism) at compile time. Regular compilers typically work at the **basic block** level, but **basic blocks have severely limited parallelism**, making it necessary to develop compilers specifically optimized for VLIW [1]. The paper *"Parallel processing: a smart compiler and a dumb machine."* introduces **trace scheduling**, a technique that helps **increase ILP during machine scheduling** by treating multiple basic blocks as a single large basic block [1].
+### Discussion
 
 > To avoid parallel limitation, increasing path length, excessive code motion, pipeline stalls because of branches, and many other problems which limit the performance of a VLIW processors, hardware and software scheduling techniques were proposed. [2]
 
@@ -102,3 +55,4 @@ This sentence is especially critical for me because I am currently working on Ma
 ### **Reference**
 - **[1]** Fisher, Joseph A., John R. Ellis, John C. Ruttenberg and Alexandru Nicolau. “Parallel processing: a smart compiler and a dumb machine.” SIGPLAN Conferences and Workshops (1984).  
 - **[2]** Popescu, Cornel and Francisc Iacob. “MODEL SIMULATION AND PERFORMANCE EVALUATION FOR A VLIW ARCHITECTURE.” (2000).
+- **[3]** John L. Hennessy and David A. Patterson. 2017. Computer Architecture, Sixth Edition: A Quantitative Approach (6th. ed.). Morgan Kaufmann Publishers Inc., San Francisco, CA, USA.
