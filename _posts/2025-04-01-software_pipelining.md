@@ -12,11 +12,9 @@ published: true
 
 ### **Background**
 
-As I explore VLIW processors, it is all about finding sufficient (and ideally high) Instruction Level Parallelism (ILP) to fully utilize the benefits of VLIW. The papers and textbooks I have read to learn about VLIW processors usually introduce *trace scheduling* as the primary solution for uncovering ILP (which I plan to review soon). 
+As I explore VLIW processors, I thought it is all about finding sufficient (and ideally high) Instruction Level Parallelism (ILP) to fully utilize the benefits of VLIW. The papers and textbooks I have read to learn about VLIW processors usually introduce *trace scheduling* as the primary solution for uncovering ILP (which I plan to review soon). 
 
 However, this time, I read a short retrospective article titled *Retrospective: Software Pipelining – An Effective Scheduling Technique for VLIW Machines*. In it, the author reflects on her earlier work and argues that “software pipelining is effective on VLIW without complicated hardware support” [1]. Since I believe it is important to understand various ways to effectively utilize VLIW processors, I decided to dig into **software pipelining**.
-
-But for now, let’s study software pipelining from the basics~!
 
 ---
 
