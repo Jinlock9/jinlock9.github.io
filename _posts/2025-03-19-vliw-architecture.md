@@ -53,6 +53,6 @@ This sentence is especially critical for me because I am currently working on Ma
 ---
 
 ### **Reference**
-- **[1]** Fisher, Joseph A., John R. Ellis, John C. Ruttenberg and Alexandru Nicolau. “Parallel processing: a smart compiler and a dumb machine.” SIGPLAN Conferences and Workshops (1984).  
-- **[2]** Popescu, Cornel and Francisc Iacob. “MODEL SIMULATION AND PERFORMANCE EVALUATION FOR A VLIW ARCHITECTURE.” (2000).
-- **[3]** John L. Hennessy and David A. Patterson. 2017. Computer Architecture, Sixth Edition: A Quantitative Approach (6th. ed.). Morgan Kaufmann Publishers Inc., San Francisco, CA, USA.
+- **[1]** Fisher, Joseph A., John R. Ellis, John C. Ruttenberg, and Alexandru Nicolau. 1984. *Parallel processing: a smart compiler and a dumb machine*. SIGPLAN Conferences and Workshops.
+- **[2]** Cornel Popescu and Francisc Iacob. 2000. *Model Simulation and Performance Evaluation for a VLIW Architecture*.
+- **[3]** John L. Hennessy and David A. Patterson. 2017. *Computer Architecture: A Quantitative Approach* (6th ed.). Morgan Kaufmann Publishers Inc., San Francisco, CA, USA.

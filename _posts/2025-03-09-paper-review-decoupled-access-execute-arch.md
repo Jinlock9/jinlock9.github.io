@@ -91,4 +91,4 @@ DAE architectures offer significant performance improvements while reducing prog
 ---
 
 ### **Reference**
-James E. Smith. 1982. Decoupled access/execute computer architectures. SIGARCH Comput. Archit. News 10, 3 (April 1982), 112–119. https://doi.org/10.1145/1067649.801719
+James E. Smith. *Decoupled access/execute computer architectures*. SIGARCH Computer Architecture News 10, 3 (April 1982), 112–119. https://doi.org/10.1145/1067649.801719

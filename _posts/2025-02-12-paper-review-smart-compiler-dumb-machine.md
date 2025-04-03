@@ -88,5 +88,5 @@ For those short on time, here are the key takeaways:
 ---
 
 ### Reference
-Fisher, Joseph A., John R. Ellis, John C. Ruttenberg and Alexandru Nicolau. “Parallel processing: a smart compiler and a dumb machine.” SIGPLAN Conferences and Workshops (1984).
+Fisher, Joseph A., John R. Ellis, John C. Ruttenberg, and Alexandru Nicolau. 1984. *Parallel processing: a smart compiler and a dumb machine*. SIGPLAN Conferences and Workshops.
 

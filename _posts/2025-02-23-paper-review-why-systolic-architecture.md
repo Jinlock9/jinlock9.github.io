@@ -158,4 +158,4 @@ I should be aware that something that is theoretically and computationally compu
 I had not considered that complex building blocks might function as basic cells while also supporting pipelining. This makes me wonder if systolic architecture could be applied on a larger scale.
 
 ### **Reference**
-H. T. Kung, *"Why Systolic Architectures?"* Computer, vol. 15, no. 1, pp. 37–46, Jan. 1982.
+H. T. Kung, *“Why Systolic Architectures?”* Computer, vol. 15, no. 1, pp. 37–46, Jan. 1982.

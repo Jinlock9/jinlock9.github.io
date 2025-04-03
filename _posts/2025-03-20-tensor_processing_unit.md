@@ -77,4 +77,4 @@ I like the TPU's **microarchitecture philosophy**, which states that instead of 
 One of the main reasons I wanted to study TPU architecture was to understand its memory interactions. I realized that by adopting **systolic architecture** and **on-chip memory**, the TPU achieves a highly efficient structure that significantly improves memory bandwidth and reduces latency. Additionally, since it functions as a **coprocessor**, I learned that it does not contribute to the memory bottleneck of the host CPU—a realization that corrected my previous misconception that matrix operations could be a major source of register pressure. This was truly a moment of breaking free from my ignorance—haha!
 
 ### **Reference**
-- **[1]** John L. Hennessy and David A. Patterson. 2017. Computer Architecture, Sixth Edition: A Quantitative Approach (6th. ed.). Morgan Kaufmann Publishers Inc., San Francisco, CA, USA.
+- **[1]** John L. Hennessy and David A. Patterson. 2017. *Computer Architecture: A Quantitative Approach* (6th ed.). Morgan Kaufmann Publishers Inc., San Francisco, CA, USA.
