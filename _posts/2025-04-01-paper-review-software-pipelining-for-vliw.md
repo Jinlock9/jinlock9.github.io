@@ -125,10 +125,77 @@ Since loop unrolling and software pipelining target different types of inefficie
 - Loop unrolling reduces how often loop control code runs.
 - Software pipelining keeps the pipeline busy and avoids stalls.
 When combined, these techniques can significantly improve the performance of inner loops, especially in performance-critical applications.
-  
+
 ---
 
-## Paper Review
+### Difficulties in Practice [3]
+
+In practice, compiling loops using software pipelining presents several challenges:
+
+1. **Loop Restructuring**: Many loops require substantial transformation before software pipelining can be applied.
+
+2. **Trade-offs**: The balance between the overhead introduced by software pipelining and the performance gains it provides is often complex and context-dependent.
+
+3. **Register Management**: Efficiently managing registers adds another layer of difficulty to the compilation process.
+
+To address the latter two issues, the IA-64 architecture introduced extensive hardware support for software pipelining. While this hardware improves the efficiency of applying the technique, it does not eliminate the need for sophisticated compiler support or the need to make difficult decisions about how to best compile a loop.
+
+---
+
+## Paper Review [2]
+
+The paper introduces **software pipelining** as an effective and practical scheduling technique for VLIW (Very Long Instruction Word) processors. Unlike traditional approaches like trace scheduling, which compact code across basic blocks, software pipelining overlaps successive loop iterations at fixed intervals, enabling multiple iterations to execute concurrently. This technique achieves high throughput while maintaining compact object code.
+
+However, finding an optimal software pipelining schedule is **NP-complete**. Existing solutions either rely on specialized hardware (e.g., crossbar in polycyclic architectures) or limit pipelining to simple loops using heuristics.
+
+This paper contributes in two key ways:
+1. It presents improved heuristics and a technique called **modulo variable expansion**, enabling near-optimal results for loops with both intra- and inter-iteration dependencies—**without specialized hardware**.
+2. It introduces a **hierarchical reduction** method that allows control constructs (e.g., conditionals) to be treated like simple operations, thus extending software pipelining to **all innermost loops**, including those with conditionals and short iteration counts.
+
+The proposed techniques are implemented in a compiler for the **Warp** VLIW machine, and have been validated through real-world applications in image, signal, and scientific processing.
+
+---
+
+### **Simple Loop**
+
+In software pipelining, multiple iterations of a loop are overlapped by initiating a new iteration every cycle, even before previous iterations finish. This leads to better utilization of the processor's parallel resources.
+
+- The loop execution is divided into three phases:
+  1. **Prolog** – where the pipeline is filled by initiating new iterations.
+  2. **Steady state** – where a constant number of iterations are in flight, achieving maximum throughput.
+  3. **Epilog** – where the remaining iterations complete.
+
+- The **goal** is to minimize the **initiation interval (II)**—the number of cycles between the start of consecutive iterations. A smaller II means higher throughput.
+
+- The software pipelining problem is modeled as a scheduling problem under two main constraints:
+  1. **Resource constraints**: All operations scheduled in the same cycle across different iterations must not exceed the hardware's available resources.
+  2. **Precedence constraints**: Data dependencies must be respected, including inter-iteration dependencies (i.e., when an operation depends on a value from a previous iteration).
+
+  - These constraints are expressed using a **modulo reservation table** and a **precedence graph**, where operations are represented as nodes with dependency edges.
+
+The scheduling objective is to assign each operation a start time such that the same schedule can be reused across iterations, with the shortest possible constant initiation interval.
+
+> ... when register allocation becomes a problem, software pipelining is not as crucial (323).  
+
+> Thus, we can conclude that the increase in code size due to software pipelining is not an issue (323).  
+
+The above quotes suggest that software pipelining does not need to take register allocation or code size into serious consideration. This is particularly attractive, as code size is commonly cited as a trade-off in loop unrolling [3].
+
+---
+
+### **Hierarchical reduction**
+
+**Hierarchical reduction** is a method that allows software pipelining to be applied to all innermost loops, even those containing conditional statements or with short iteration counts.
+
+- The idea is to represent entire control constructs (like conditionals and loops) as single scheduling units, or nodes. This enables existing scheduling techniques (such as software pipelining) to be applied beyond basic blocks.
+
+- For conditional statements, each branch (THEN/ELSE) is scheduled independently. The entire construct is then reduced to a single node whose constraints are the union of both branches. This allows operations outside the conditional to be scheduled in parallel with it.
+
+- For loops, the prolog and epilog can be overlapped with operations outside the loop by reducing the loop to a single node, while the steady state is kept isolated to preserve correctness.
+
+- Once control constructs are reduced to straight-line forms, global code motion techniques can be applied across them. This makes it possible to compact complex loops effectively and improve performance even in short or irregular loops.
+
+The key benefit of hierarchical reduction is that it generalizes software pipelining to support more complex control structures while maintaining efficiency and code compactness.
 
 ---
 
