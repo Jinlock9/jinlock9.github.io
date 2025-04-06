@@ -1,22 +1,25 @@
 ---
 layout: post
-title: Software Pipelining
+title: Review - Software Pipelining - An Effective Scheduling Technique for VLIW Machines
 date: 2025-04-01 23:00 +0800
-categories: [Review, Compiler]
-tags: compiler instruction_level_parallelism software_pipelining
+categories: [Paper, Scheduling_Technique]
+tags: compiler instruction_level_parallelism instruction_scheduling software_pipelining
 author: jinlock
-description: Studying Software Pipelining
+description: Reviewing "Software Pipelining - An Effective Scheduling Technique for VLIW Machines
 toc: false
-published: false
+published: true
 ---
 
-### **Background**
+As I continue exploring VLIW processors, I have observed that exposing a sufficient level of Instruction Level Parallelism (ILP) is important to make effective use of their architectural characteristics. Most of the papers and textbooks I have consulted introduce trace scheduling as a primary compilation technique for uncovering ILP, which I plan to examine in more detail.
 
-As I explore VLIW processors, I thought it is all about finding sufficient (and ideally high) Instruction Level Parallelism (ILP) to fully utilize the benefits of VLIW. The papers and textbooks I have read to learn about VLIW processors usually introduce *trace scheduling* as the primary solution for uncovering ILP (which I plan to review soon). 
+However, recently, I read a short retrospective article titled Retrospective: Software Pipelining – An Effective Scheduling Technique for VLIW Machines. In this piece, the author revisits her earlier work and argues that software pipelining can be effective on VLIW processors even without complex hardware mechanisms. To better understand this alternative scheduling approach, I decided to review the original paper, Software Pipelining: An Effective Scheduling Technique for VLIW Machines.
 
-However, this time, I read a short retrospective article titled *Retrospective: Software Pipelining – An Effective Scheduling Technique for VLIW Machines*. In it, the author reflects on her earlier work and argues that “software pipelining is effective on VLIW without complicated hardware support” [1]. Since I believe it is important to understand various ways to effectively utilize VLIW processors, I decided to dig into **software pipelining**.
+![Software Pipelining](../assets/img/posts/2025-04-01-paper-review-software-pipelining-for-vliw.png)
 
 ---
+## The Basics
+
+But before that, it is necessary to review the fundamentals of software pipelining in order to better understand the paper.
 
 ### **Software Pipelining**
 
@@ -125,47 +128,7 @@ When combined, these techniques can significantly improve the performance of inn
   
 ---
 
-### **Discussion: Is Hardware Support Necessary for Software Pipelining?**
-
-When I read the following from *Computer Architecture: A Quantitative Approach* by Hennessy and Patterson:
-
-> “In practice, compilation using software pipelining is quite difficult… To help deal with the last two of these issues, the IA-64 added extensive hardware support for software pipelining…”  
-> — Hennessy & Patterson, *Computer Architecture: A Quantitative Approach*, 6th ed., **p. 180** [3]
-
-I understood that **hardware support is often necessary** to make software pipelining practical—particularly to manage **register pressure** and **code overhead**.
-
-But then I came across Monica Lam’s retrospective:
-
-> “The most important contribution from this paper is to show that software pipelining is effective on VLIW machines without complicated hardware support.”  
-> — Lam, *Retrospective: Software Pipelining*, 2003, **p. 1 (Abstract)** [1]
-
-> “This paper establishes software pipelining as a useful static scheduling technique for VLIW processors without requiring specialized architectural support.”  
-> — Lam, *Retrospective: Software Pipelining*, 2003, **p. 2** [1]
-
-This led me to a natural question:  
-**Why doesn’t software pipelining need hardware support on VLIW machines?**
-
-After reading Lam’s original 1988 paper [2], the answer became clearer.
-
-**VLIW architectures expose instruction-level parallelism directly to the compiler.** They don’t rely on dynamic hardware scheduling, which means the compiler has **full control over instruction placement**. This static nature allows aggressive software techniques—like software pipelining—to be highly effective without needing features like rotating registers or predicated execution.
-
-Lam's technique uses **modulo variable expansion** and **limited loop unrolling** to handle inter-iteration dependencies. Her experimental results on the Warp VLIW processor demonstrate this:
-
-> “The compiler is able to generate near-optimal schedules for many loops on a realistic VLIW processor, without requiring any special hardware support.”  
-> — Lam, *Software Pipelining: An Effective Scheduling Technique for VLIW Machines*, 1988, **p. 327** [2]
-
-> “The Warp processor, with its many registers and very wide instruction word, was relatively easy to schedule.”  
-> — Lam, *Retrospective*, 2003, **p. 4** [1]
-
-In contrast, **general-purpose architectures** often lack such visibility and freedom. They require **hardware mechanisms** to help the compiler manage pipeline fill/drain, register reuse, and performance variability—hence the additions in IA-64.
-
-> “Although this hardware can make it more efficient to apply software pipelining, it does not eliminate the need for complex compiler support, or the need to make difficult decisions about the best way to compile a loop.”  
-> — Hennessy & Patterson, 2017, **p. 180** [3]
-
-**In short:**
-- VLIW’s compiler-centric design reduces the need for hardware scheduling assistance.
-- Software pipelining fits naturally into the VLIW model.
-- But in more complex, general-purpose systems, **hardware support makes pipelining feasible at scale**.
+## Paper Review
 
 ---
 
