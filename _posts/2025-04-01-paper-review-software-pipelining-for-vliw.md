@@ -144,15 +144,17 @@ To address the latter two issues, the IA-64 architecture introduced extensive ha
 
 ## Paper Review [2]
 
-The paper introduces **software pipelining** as an effective and practical scheduling technique for VLIW (Very Long Instruction Word) processors. Unlike traditional approaches like trace scheduling, which compact code across basic blocks, software pipelining overlaps successive loop iterations at fixed intervals, enabling multiple iterations to execute concurrently. This technique achieves high throughput while maintaining compact object code.
+The paper introduces **software pipelining** as an effective and practical scheduling technique for VLIW (Very Long Instruction Word) processors. Unlike traditional methods like trace scheduling, which optimize across basic blocks, software pipelining overlaps successive loop iterations at fixed initiation intervals. This enables multiple iterations to execute concurrently, achieving high throughput while keeping the object code compact.
 
-However, finding an optimal software pipelining schedule is **NP-complete**. Existing solutions either rely on specialized hardware (e.g., crossbar in polycyclic architectures) or limit pipelining to simple loops using heuristics.
+Because finding an optimal schedule is **NP-complete**, earlier approaches either depended on specialized hardware (such as the crossbar in polycyclic architectures) or limited software pipelining to simple loops using heuristics.
 
-This paper contributes in two key ways:
-1. It presents improved heuristics and a technique called **modulo variable expansion**, enabling near-optimal results for loops with both intra- and inter-iteration dependencies—**without specialized hardware**.
-2. It introduces a **hierarchical reduction** method that allows control constructs (e.g., conditionals) to be treated like simple operations, thus extending software pipelining to **all innermost loops**, including those with conditionals and short iteration counts.
+This paper makes two major contributions:
+1. It improves software scheduling heuristics and introduces **modulo variable expansion**, enabling near-optimal performance for loops with both intra- and inter-iteration dependencies—**without requiring specialized hardware**.
+2. It proposes a **hierarchical reduction** technique, which allows complex control constructs (such as conditionals) to be treated like simple operations. This generalization makes it possible to apply software pipelining to **all innermost loops**, including those with conditional statements and loops with small iteration counts.
 
-The proposed techniques are implemented in a compiler for the **Warp** VLIW machine, and have been validated through real-world applications in image, signal, and scientific processing.
+While **software pipelining** is the main reason for the speedup observed in programs, it is **hierarchical reduction** that makes it possible to attain **consistently good results**—even on programs that contain conditional branches in innermost loops or have very few iterations. Together, these two techniques allow the compiler to generate near-optimal, and sometimes optimal, code for VLIW machines.
+
+The effectiveness of these methods is demonstrated in a compiler targeting the **Warp** VLIW architecture, with strong performance shown across a wide range of real-world applications in image, signal, and scientific processing.
 
 ---
 
@@ -173,8 +175,15 @@ In software pipelining, multiple iterations of a loop are overlapped by initiati
 
   - These constraints are expressed using a **modulo reservation table** and a **precedence graph**, where operations are represented as nodes with dependency edges.
 
+#### Modulo Variable Expansion 
+To further reduce II and improve scheduling flexibility, modulo variable expansion is applied. This optimization assigns different registers to the same logical variable across iterations, effectively breaking inter-iteration false dependencies caused by register reuse. By doing so, multiple overlapping uses of a variable do not block pipeline progress, enabling tighter packing of operations and more aggressive overlapping of iterations.
+
+While this transformation can increase register pressure or require code unrolling, it significantly lowers the initiation interval in practice and is particularly well-suited for architectures with abundant registers, like VLIW machines.
+
+#### Objective
 The scheduling objective is to assign each operation a start time such that the same schedule can be reused across iterations, with the shortest possible constant initiation interval.
 
+#### Note
 > ... when register allocation becomes a problem, software pipelining is not as crucial (323).  
 
 > Thus, we can conclude that the increase in code size due to software pipelining is not an issue (323).  
@@ -187,15 +196,59 @@ The above quotes suggest that software pipelining does not need to take register
 
 **Hierarchical reduction** is a method that allows software pipelining to be applied to all innermost loops, even those containing conditional statements or with short iteration counts.
 
-- The idea is to represent entire control constructs (like conditionals and loops) as single scheduling units, or nodes. This enables existing scheduling techniques (such as software pipelining) to be applied beyond basic blocks.
+- The idea is to represent entire control constructs (like conditionals and loops) as single scheduling units, or **nodes**. This enables existing scheduling techniques (such as software pipelining) to be applied beyond basic blocks.
 
-- For conditional statements, each branch (THEN/ELSE) is scheduled independently. The entire construct is then reduced to a single node whose constraints are the union of both branches. This allows operations outside the conditional to be scheduled in parallel with it.
+- For **conditional statements**, each branch (THEN/ELSE) is scheduled independently. The entire construct is then reduced to a single node whose constraints are the union of both branches. This allows operations outside the conditional to be scheduled in parallel with it.
 
-- For loops, the prolog and epilog can be overlapped with operations outside the loop by reducing the loop to a single node, while the steady state is kept isolated to preserve correctness.
+- For **loops**, the prolog and epilog can be overlapped with operations outside the loop by reducing the loop to a single node, while the steady state is kept isolated to preserve correctness.
 
 - Once control constructs are reduced to straight-line forms, global code motion techniques can be applied across them. This makes it possible to compact complex loops effectively and improve performance even in short or irregular loops.
 
-The key benefit of hierarchical reduction is that it generalizes software pipelining to support more complex control structures while maintaining efficiency and code compactness.
+The key benefit of hierarchical reduction is that *it generalizes software pipelining to support more complex control structures while maintaining efficiency and code compactness*.
+
+#### Example
+```c
+for (int i = 0; i < N; ++i) {
+  if (cond[i])
+    A[i] = B[i] + 1;
+  else
+    A[i] = B[i] - 1;
+}
+```
+Without hierarchical reduction:
+- The compiler might treat this as two separate basic blocks and pipeline only each separately.
+
+With hierarchical reduction:
+- The if-else is reduced into a single operation.
+- Software pipelining is applied to the entire loop structure as if the conditional is just one step in the pipeline.
+
+---
+
+### **Software Pipelining vs Trace Scheduling**
+This is the part I'm really curious about: does software pipelining have an advantage over trace scheduling?
+
+**Trace scheduling** is a global scheduling technique that optimizes the most frequently executed paths (called traces) by treating them like large basic blocks. It aggressively moves instructions across branches to increase parallelism. In contrast, **software pipelining** focuses on overlapping loop iterations to achieve high throughput. The key difference is that software pipelining retains the program’s control structure, while trace scheduling flattens it for optimization, often at the cost of increased code size.
+
+#### Loops
+Trace scheduling optimizes loop bodies by unrolling them, creating longer traces to expose more parallelism. However, this requires guessing how many iterations to unroll, and the overhead of filling and draining the pipeline prevents it from reaching optimal performance. Software pipelining, on the other hand, overlaps iterations directly and can achieve optimal throughput without trial-and-error tuning. It also avoids excessive code size by only unrolling when necessary (e.g., for modulo variable expansion).
+
+#### Conditional Statements
+With conditionals, trace scheduling assumes one path is more likely and optimizes that trace. This can lead to code duplication when preserving correctness for less-likely paths, causing code explosion. In contrast, software pipelining uses hierarchical reduction to treat an entire conditional as a single schedulable unit. This approach avoids duplication and allows pipelining even when the control flow is complex or data-dependent.
+
+#### Conclusion
+Software pipelining is more robust and scalable for loops and programs with complex control flow. It offers high performance with predictable code size and is less sensitive to control flow variations. Trace scheduling can produce good results in well-predicted paths but risks code bloat and is harder to manage for general-purpose programs.
+
+---
+### **Final Remarks**
+
+This paper helped me understand that software pipelining can be a practical and effective scheduling technique, especially for loops with complex control flow. Its ability to maintain performance without relying on specialized hardware was notable. While trace scheduling has its own strengths, software pipelining—through hierarchical reduction and modulo variable expansion—offers a more consistent approach for VLIW architectures.
+
+It also reminded me that understanding the architectural features of the target processor is essential when evaluating or designing compiler techniques.
+
+#### Notes
+> Inter-iteration data dependency, or recurrences, do not necessarily mean that the code is serialized. This is one 
+important advantage that VLIW architectures have over vector machines As long as there are other operations that can 
+execute in parallel with the serial computation, a high computation rate can still be obtained (326).
 
 ---
 
