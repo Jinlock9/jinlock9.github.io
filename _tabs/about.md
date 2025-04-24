@@ -4,15 +4,30 @@ icon: fas fa-info-circle
 order: 4
 ---
 
-## Jinlock Choi
+## About me
+### Jinlock Choi
 - *jinlock99@gmail.com*
 - Location:
     - *Seoul, Korea*
     - *Shanghai, China*
-- **University of Michigan - Shanghai Jiaotong University Joint Intitute**
-    - 2020.09 ~ 2025.06
-    - Major: *Electrical and Computer Engineer*
-    - Minor: *Computer Science*
-- **Shanghai Taize Semiconductor Co., Ltd**
-    - 2025.01 ~ 
-    - *Compiler Development Engineer (intern)*
+
+### Education
+#### **B.S. in Electrical and Computer Engineering, Shanghai Jiaotong University, Shanghai**
+- September 2020 — June 2025
+- Minor: *Computer Science*
+- Capstone Project:  
+    *Enhancing Pipeline Efficiency: Out-Of-Order Execution with Intel P6  Style and Tomasulo's Algorithm*
+
+#### **<>**
+- March 2026 - 
+- Computing Systems
+
+### Employment
+#### **Shanghai Taize Semiconductor Co., Ltd**
+- January 2025 — April 2025
+- *Compiler Development Engineer (intern)*
+- Project:  
+    *Evaluation of LLVM MachineSink on a Custom VLIW Processor*
+- **<>**
+    - May 2025 -
+
