@@ -28,6 +28,7 @@ order: 4
 - *Compiler Development Engineer (intern)*
 - Project:  
     *Evaluation of LLVM MachineSink on a Custom VLIW Processor*
-- **<>**
-    - May 2025 -
+    
+#### **<>**
+- May 2025 -
 
