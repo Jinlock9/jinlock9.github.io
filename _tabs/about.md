@@ -23,7 +23,7 @@ order: 4
 - Computing Systems
 
 ### Employment
-#### **Shanghai Taize Semiconductor Co., Ltd**
+#### **Shanghai Taize Semiconductor Co., Ltd (上海泰则半导体有限公司), Shanghai, China**
 - January 2025 — 
 - *Compiler Development Engineer (intern)*
 - **Full-time employment from July :)**
