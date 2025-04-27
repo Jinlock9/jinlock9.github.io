@@ -12,4 +12,18 @@ published: true
 
 ![Ant Colony Optimization](../assets/img/posts/2025-04-27-paper-review-reg-pressure-aware-instruction-scheduling-using-aco.png)
 
+### Notes
+#### 23:2
+- Register Spilling -> indeed extra loads and stores
+- Register Spilling is expensive on GPU:
+  - What about VLIW processor with TPU?
+
+#### 23:3
+RP Estimation
+- Peak Excess Register Pressure (PERP) [Shobaki et al. 2013] - CPU
+- Sum of Live Interval lengths (SLIL) [Shobaki et al. 2019] - CPU
+- Adjusted Peak Register Pressure (APRP) [Shobaki et al. 2020] - GPU
+
+
 ### **Reference**
+**[1]** Ghassan Shobaki, Vahl Scott Gordon, Paul McHugh, Theodore Dubois, and Austin Kerbow. 2022. Register-Pressure-Aware Instruction Scheduling Using Ant Colony Optimization. ACM Trans. Archit. Code Optim. 19, 2, Article 23 (June 2022), 23 pages. https://doi.org/10.1145/3505558

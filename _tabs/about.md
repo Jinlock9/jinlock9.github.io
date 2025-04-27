@@ -13,9 +13,8 @@ order: 4
 ### Employment
 #### **Shanghai Taize Semiconductor Co., Ltd (上海泰则半导体有限公司), Shanghai**
 - **Full-time employment from July :)**
-    - July 2025 - 
 - *Compiler Development Engineer (intern) : LLVM*
-    - January 2025 - June 2025
+    - January 2025 - Present
     - *Evaluation of LLVM MachineSink on a Custom VLIW Processor*
     
 
