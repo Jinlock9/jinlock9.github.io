@@ -2,10 +2,10 @@
 layout: post
 title: Review - Software Pipelining - An Effective Scheduling Technique for VLIW Machines
 date: 2025-04-01 23:00 +0800
-categories: [Paper, Scheduling_Technique]
+categories: [Paper, Instruction_Scheduling]
 tags: compiler instruction_level_parallelism instruction_scheduling software_pipelining
 author: jinlock
-description: Reviewing "Software Pipelining - An Effective Scheduling Technique for VLIW Machines
+description: Reviewing "Software Pipelining - An Effective Scheduling Technique for VLIW Machines"
 toc: false
 published: true
 ---
