@@ -6,9 +6,9 @@ order: 4
 
 ### Jinlock Choi
 - *jinlock99@gmail.com*
-#### Location:
-- *Shanghai, China*
-- *Seoul, Korea*
+- Location:
+    - *Shanghai, China*
+    - *Seoul, Korea*
 
 ### Employment
 #### **Shanghai Taize Semiconductor Co., Ltd (上海泰则半导体有限公司), Shanghai**
