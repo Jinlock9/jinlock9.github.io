@@ -2,7 +2,7 @@
 layout: post
 title: Review - On Proebsting’s Law
 date: 2025-05-15 23:00 +0800
-categories: [Paper, Review]
+categories: [Paper, Compiler]
 tags: compiler CS6120
 author: jinlock
 description: Reviewing "On Proebsting’s Law"
