@@ -7,15 +7,15 @@ order: 4
 ### Jinlock Choi
 - *jinlock99@gmail.com*
 #### Location:
-- *Seoul, Korea*
 - *Shanghai, China*
+- *Seoul, Korea*
 
 ### Employment
 #### **Shanghai Taize Semiconductor Co., Ltd (上海泰则半导体有限公司), Shanghai**
 - **Full-time employment from July :)**
 - *Compiler Development Engineer (intern) : LLVM*
     - January 2025 - Present
-    - *Evaluation of LLVM MachineSink on a Custom VLIW Processor*
+    - *Evaluation of LLVM Machine Sinking on a Custom VLIW Processor*
     
 
 ### Education
