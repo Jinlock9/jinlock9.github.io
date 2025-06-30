@@ -85,7 +85,7 @@ The overall structure of almost every compiler adheres to the outline.
 # The Economy of Programming Languages
 
 ### Why are there so many programming languages?
-Application domains have distinctive/conflicting needs.
+*Application domains have distinctive/conflicting needs.*
 * Scientific computing
   - good FP
   - good array
@@ -101,9 +101,15 @@ Application domains have distinctive/conflicting needs.
   - real-time constraints
   - ex. `c/c++`
 
-#### Claim: Programming training is the dominant cost for a programming language.
+#### Claim: *Programming training is the dominant cost for a programming language*.
 * Widely-used languages are slow to change
 * Easy to start a new language.
   - productivity > training cost
-
 * Languages adopted to fill a void.
+* New languages tend to look like old languages
+
+### What is a good programming language?
+There is no universally accepted metric for language design.
+
+* A good language is one people use?
+  - 
