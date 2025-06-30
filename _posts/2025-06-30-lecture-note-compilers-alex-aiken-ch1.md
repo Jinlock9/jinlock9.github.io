@@ -1,0 +1,85 @@
+---
+layout: post
+title: Lecture Note 1 - Compilers by Alex Aiken
+date: 2025-06-30 20:40 +0800
+categories: [Lecture, Compiler]
+tags: compiler CS6120
+author: jinlock
+description: Lecture Note on Stanford Online SOE.YCSCS1
+toc: false
+published: true
+---
+
+# Structure of Compilers
+1. Lexical Analysis
+2. Parsing
+3. Semantic Analysis 
+4. Optimization
+5. Code Generation
+
+---
+
+### Lexical Analysis
+**Lexical analysis** divides program text into "words" or "tokens".
+
+---
+
+### Parsing
+* **Parsing** = Diagramming sentences  
+* Diagram = tree
+
+ex.
+```yaml
+if x == y then z = 1; else z = 2;
+
+    x  ==  y   z   1    z   2
+    |  |   |   |   |    |   |
+    relation   assign   assign
+        |        |        |
+    predicate   then     else
+          \      |      /
+           if-then-else
+```
+
+---
+
+### Semantic Analysis
+* Compilers perform limited **semantic analysis** to catch inconsistencies.
+* Programming languages defined strict rules to avoid ambiguities.
+* Compilers perform many semantic checks besides variable bindings.
+
+---
+
+### Optimization
+Automatically modify programs so that they:
+* run faster
+* use less memory
+* reduce power
+* reduce network/database access
+
+Ex.
+```python
+X = Y * 0 is the same as X = 0 (not alway true)
+# valid for integer 
+# invalid for FP (NaN * 0 = NaN)
+```
+
+---
+
+### Code Generation
+* Produces assembly code (usually)
+* A translation into another language
+
+---
+
+The overall structure of almost every compiler adheres to the outline.
+```yaml
+# Before
+[  L  ][  P  ][S][  O  ][ CG ]
+# Thesedays
+[L][P][  S  ][    O      ][CG] 
+```
+
+---
+
+# The Economy of Programming Languages

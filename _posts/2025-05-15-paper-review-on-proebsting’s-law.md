@@ -3,7 +3,7 @@ layout: post
 title: Review - On Proebsting’s Law
 date: 2025-05-15 23:00 +0800
 categories: [Paper, Compiler]
-tags: compiler CS6120
+tags: compiler
 author: jinlock
 description: Reviewing "On Proebsting’s Law"
 toc: false
@@ -12,7 +12,7 @@ published: true
 
 ![On Proebsting’s Law](../assets/img/posts/2025-05-15-paper-review-on-proebsting’s-law.png)
 
-To study compilers in a more structured manner, I found a lecture from Cornell University: **CS6120: Advanced Compilers**, a PhD-level computer science course taught by *Adrian Sampson*. Starting today, I plan to review and reflect on what I learn from this course. In the orientation lecture, the professor recommended reading **On Proebsting’s Law** by *Kevin Scott*.
+**On Proebsting’s Law** by *Kevin Scott*.
 
 The paper conducts an experiment to examine the validity of Proebsting’s Law.
 
