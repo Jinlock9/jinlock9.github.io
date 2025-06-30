@@ -29,7 +29,7 @@ published: true
 * Diagram = tree
 
 ex.
-```yaml
+```
 if x == y then z = 1; else z = 2;
 
     x  ==  y   z   1    z   2
@@ -58,7 +58,7 @@ Automatically modify programs so that they:
 * reduce network/database access
 
 Ex.
-```python
+```
 X = Y * 0 is the same as X = 0 (not alway true)
 # valid for integer 
 # invalid for FP (NaN * 0 = NaN)
@@ -73,7 +73,7 @@ X = Y * 0 is the same as X = 0 (not alway true)
 ---
 
 The overall structure of almost every compiler adheres to the outline.
-```yaml
+```
 # Before
 [  L  ][  P  ][S][  O  ][ CG ]
 # Thesedays
@@ -84,7 +84,7 @@ The overall structure of almost every compiler adheres to the outline.
 
 # The Economy of Programming Languages
 
-#### Why are there so many programming languages?
+### Why are there so many programming languages?
 Application domains have distinctive/conflicting needs.
 * Scientific computing
   - good FP
@@ -101,3 +101,9 @@ Application domains have distinctive/conflicting needs.
   - real-time constraints
   - ex. `c/c++`
 
+#### Claim: Programming training is the dominant cost for a programming language.
+* Widely-used languages are slow to change
+* Easy to start a new language.
+  - productivity > training cost
+
+* Languages adopted to fill a void.
