@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Lecture Note 1 - Compilers by Alex Aiken
+title: Compilers by Alex Aiken - 1 Introduction
 date: 2025-06-30 20:40 +0800
 categories: [Lecture, Compiler]
 tags: compiler CS6120
@@ -112,4 +112,3 @@ The overall structure of almost every compiler adheres to the outline.
 There is no universally accepted metric for language design.
 
 * A good language is one people use?
-  - 
