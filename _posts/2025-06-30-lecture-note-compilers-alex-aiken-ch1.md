@@ -83,3 +83,21 @@ The overall structure of almost every compiler adheres to the outline.
 ---
 
 # The Economy of Programming Languages
+
+#### Why are there so many programming languages?
+Application domains have distinctive/conflicting needs.
+* Scientific computing
+  - good FP
+  - good array
+  - parallelism
+  - ex. `FORTRAN`
+* Business applications
+  - persistence
+  - report generation
+  - data analysis
+  - ex. `SQL`
+* System programming
+  - control of resources
+  - real-time constraints
+  - ex. `c/c++`
+
