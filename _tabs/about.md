@@ -6,8 +6,8 @@ order: 4
 
 ## Jinlock Choi
 * *jinlock99@gmail.com*
-* Location: *Shanghai, China* | *Seoul, Korea*
-* Interests: `Computer Architecture` | `Compiler Engineering`
+* Location: *Shanghai, China* / *Seoul, Korea*
+* Interests: `Computer Architecture` / `Compiler Engineering`
 
 #### Profile
 Hello, I am Jinlock Choi, a Compiler Engineer specializing in LLVM backend development and architecture-aware optimizations. I have a strong foundation in computer architecture, complemented by a minor in computer science, giving me a broad and deep understanding of computing systems. I am experienced in developing optimization passes tailored to target architectures, and I have hands-on knowledge of processor design principles. In addition, I am proficient in C/C++, Git, and collaborative development workflows, and have demonstrated strong communication and teamwork skills through various academic and industry projects.
@@ -37,7 +37,7 @@ Through the internship, I have gained experience with VLIW and TPU architecture,
 ### **B.S. in Electrical and Computer Engineering, Shanghai Jiaotong University, Shanghai**
 * September 2020 - June 2025
 * Minor: *Computer Science*
-* GPA: **3.37 / 4** | Computer Architecture: **A+**
+* GPA: **3.37 / 4**; Computer Architecture: **A+**
 * Shanghai Government Second-Class Scholarship
 
 * Courses: 
@@ -61,10 +61,10 @@ Extended a basic RISC-V pipelined processor into a high-performance out-of-order
 [`C/C++`](https://github.com/Jinlock9/Cpp_Practice) 
 / [`Java`](https://github.com/Jinlock9/Study_Java-Basic-Intermediate-Java8) 
 / `Python` 
-([Concurrent Programming](https://github.com/Jinlock9/Study_Python-Concurrent-Programming), 
-Django, 
-[Web Crawler](https://github.com/Jinlock9/Study_Python-Web-Crawler), 
-[Practice](https://github.com/Jinlock9/Python_Practice)
+([`Concurrent Programming`](https://github.com/Jinlock9/Study_Python-Concurrent-Programming), 
+`Django`, 
+[`Web Crawler`](https://github.com/Jinlock9/Study_Python-Web-Crawler), 
+[`Practice`](https://github.com/Jinlock9/Python_Practice)
 ) 
 / [`Verilog/System Verilog`](https://github.com/Jinlock9/HDL_Practice) 
 / [`SystemC`](https://github.com/Jinlock9/study-SystemC) 
