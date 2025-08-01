@@ -7,7 +7,7 @@ tags: compiler CS6120
 author: jinlock
 description: Lecture Note on Stanford Online SOE.YCSCS1
 toc: false
-published: true
+published: false
 ---
 
 # Structure of Compilers

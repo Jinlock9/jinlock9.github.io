@@ -30,9 +30,9 @@ Through the internship, I have gained experience with VLIW and TPU architecture,
 
 ## Education
 
-### **<>**
+### **Computer Science - Online Masters program at Georgia Tech**
 * January 2026 - 
-* Specialized: *Computing Systems*
+* Specialized: *Machine Learning*
 
 ### **B.S. in Electrical and Computer Engineering, Shanghai Jiaotong University, Shanghai**
 * September 2020 - June 2025
